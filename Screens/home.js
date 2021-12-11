@@ -11,6 +11,7 @@ import { Icon } from "react-native-elements";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
+import TransactionCard from "../Components/transactionCard";
 
 const Home = () => {
   return (
@@ -75,6 +76,23 @@ const Home = () => {
             </View>
           </View>
         </View>
+        <View style={styles.homeMiddle}>
+          <Text style={styles.HomeSectionHead}>Recent Transaction</Text>
+          <View style={styles.HomeSectionHeadRow}>
+            <TouchableOpacity>
+              <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.HomeSectionSubTxt}>Search </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.transactions}>
+          <TransactionCard />
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.HomeBtmTxt}>More →</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -173,6 +191,39 @@ const styles = StyleSheet.create({
   },
   cardTotalTransactionsValueBold: {
     fontFamily: "DMSansBold",
+  },
+  homeMiddle: {
+    marginTop: 26,
+    width: "90%",
+    alignItems: "flex-start",
+  },
+  HomeSectionHead: {
+    fontFamily: "DMSansMedium",
+    fontSize: RFValue(18),
+    letterSpacing: -1.300001,
+    color: "#263238",
+  },
+  HomeSectionHeadRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 5,
+  },
+  HomeSectionSubTxt: {
+    fontFamily: "DMSansMedium",
+    fontSize: RFValue(15),
+    letterSpacing: -0.700001,
+    color: "#90A4AE",
+  },
+  HomeBtmTxt: {
+    fontFamily: "DMSansMedium",
+    fontSize: RFValue(14),
+    letterSpacing: -0.700001,
+    color: "#90A4AE",
+    margin: 15,
+  },
+  transactions: {
+    flex: 1,
   },
 });
 export default Home;
