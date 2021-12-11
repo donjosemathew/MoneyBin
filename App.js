@@ -4,14 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Intro from "./Screens/intro";
 import Home from "./Screens/home";
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+import AllTransactions from "./Screens/alltransactions";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +25,13 @@ function App() {
             headerShown: false,
           }}
           component={Home}
+        />
+        <Stack.Screen
+          name="AllTransactions"
+          options={{
+            headerShown: false,
+          }}
+          component={AllTransactions}
         />
       </Stack.Navigator>
     </NavigationContainer>

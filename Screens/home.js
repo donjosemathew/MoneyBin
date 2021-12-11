@@ -12,8 +12,9 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
+import FAB from "../Components/fab";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <>
       <View
@@ -89,10 +90,15 @@ const Home = () => {
         </View>
         <View style={styles.transactions}>
           <TransactionCard />
+          <TransactionCard />
+          <TransactionCard />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AllTransactions")}
+        >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
+        <FAB />
       </View>
     </>
   );
@@ -223,6 +229,8 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   transactions: {
+    width: "90%",
+    flexDirection: "column",
     flex: 1,
   },
 });
