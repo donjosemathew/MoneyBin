@@ -8,13 +8,18 @@ import {
   StyleSheet,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import React from "react";
+import React, { useState } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
 import FAB from "../Components/fab";
+import NameDialogue from "../Components/Models/namedialoague";
 
 const Home = ({ navigation }) => {
+  const [nameDialogue, setNameDialogue] = useState(false);
+  const closeAddNameDialogue = () => {
+    setNameDialogue(false);
+  };
   return (
     <>
       <View
@@ -22,11 +27,17 @@ const Home = ({ navigation }) => {
           //paddingTop: StatusBar.currentHeight,
           backgroundColor: "#FFFFFF",
           flex: 1,
-          justifyContent: "flex-start",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
         <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+        {nameDialogue ? (
+          <NameDialogue
+            closeAddNameDialogue={closeAddNameDialogue}
+            nameDialogue={nameDialogue}
+          />
+        ) : null}
         <View style={styles.home}>
           <Text style={styles.name}>MoneyBin</Text>
         </View>
@@ -94,7 +105,10 @@ const Home = ({ navigation }) => {
           <TransactionCard />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("AllTransactions")}
+          onPress={() => {
+            //navigation.navigate("AllTransactions");
+            setNameDialogue(true);
+          }}
         >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
