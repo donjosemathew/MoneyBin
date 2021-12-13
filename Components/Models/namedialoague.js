@@ -6,6 +6,7 @@ import {
   Modal,
   StyleSheet,
   StatusBar,
+  Button,
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
@@ -40,11 +41,10 @@ const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
             },
           ]}
         >
-          <TouchableOpacity onPress={closeAddNameDialogue}>
-            <Text style={styles.HomeSectionHead}>
-              Happy to know {"\n"}your Name !
-            </Text>
-          </TouchableOpacity>
+          <Text style={styles.HomeSectionHead}>
+            Happy to know {"\n"}your Name !
+          </Text>
+
           <View style={styles.inputHolder}>
             <TextInput
               outlineColor="#3FE0AE"
@@ -54,8 +54,19 @@ const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
                 //backgroundColor: "#fffff",
               }}
               mode="outlined"
-              label="Email"
+              label="Name"
             />
+          </View>
+          <View style={styles.dialogueBtm}>
+            <TouchableOpacity onPress={closeAddNameDialogue} style={styles.btn}>
+              <Text style={styles.btnTxt}>Skip</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={closeAddNameDialogue}
+              style={styles.btnImpo}
+            >
+              <Text style={styles.btnTxtImpo}>Save</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -66,6 +77,40 @@ const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
 export default NameDialogue;
 
 const styles = StyleSheet.create({
+  dialogueBtm: {
+    marginTop: 8,
+    alignSelf: "flex-end",
+    flexDirection: "row",
+    marginBottom: 14,
+  },
+  btnImpo: {
+    backgroundColor: "#3FE0AE",
+    padding: 7,
+    paddingLeft: 25,
+    paddingRight: 25,
+    borderRadius: 20,
+  },
+  btnTxtImpo: {
+    fontFamily: "DMSansBold",
+    fontSize: RFValue(15),
+    letterSpacing: -0.300001,
+    color: "#ffff",
+    textAlign: "center",
+  },
+  btn: {
+    marginLeft: 6,
+    padding: 7,
+    paddingLeft: 22,
+    paddingRight: 22,
+    borderRadius: 20,
+  },
+  btnTxt: {
+    fontFamily: "DMSansBold",
+    fontSize: RFValue(15),
+    letterSpacing: -0.300001,
+    color: "#263238",
+    textAlign: "center",
+  },
   dialogueContainer: {
     flex: 1,
 
@@ -85,14 +130,16 @@ const styles = StyleSheet.create({
     letterSpacing: -1.300001,
     color: "#263238",
     textAlign: "center",
+    marginTop: 8,
   },
   dialogue: {
     backgroundColor: "#ffffff",
     borderRadius: 6,
     width: "85%",
-    height: Dimensions.get("window").height / 2.5,
+    height: Dimensions.get("window").height / 2.65,
     alignSelf: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "column",
     alignItems: "center",
     padding: 18,
     paddingTop: 20,
