@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Icon } from "react-native-elements";
-const TransactionCard = () => {
+
+const TransactionCard = ({ ShowViewTransactionDialogue }) => {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={ShowViewTransactionDialogue} style={styles.card}>
       <View style={styles.cardRow1}>
         <Text style={styles.cardHead}>Hostel Fees</Text>
         <Icon size={30} name="arrow-up-circle" type="ionicon" color="#3FE0AE" />
@@ -15,7 +16,7 @@ const TransactionCard = () => {
           <Text style={styles.cardValuePositive}>+</Text> ₹1200
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default TransactionCard;

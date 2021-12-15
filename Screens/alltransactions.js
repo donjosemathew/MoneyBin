@@ -1,11 +1,10 @@
-import { useFonts } from "expo-font";
 import {
   Text,
   TouchableOpacity,
-  ScrollView,
   View,
   FlatList,
   StatusBar,
+  TextInput,
   StyleSheet,
 } from "react-native";
 import { Icon } from "react-native-elements";
@@ -41,6 +40,14 @@ const AllTransactions = ({ navigation }) => {
             <TouchableOpacity>
               <Text style={styles.HomeSectionSubTxt}>Search </Text>
             </TouchableOpacity>
+          </View>
+          <View style={styles.inputSearchHolder}>
+            <Icon size={25} name="search" type="ionicon" color="#263238" />
+            <TextInput
+              style={styles.input}
+              placeholder="Search Your Transcations"
+              keyboardType="numeric"
+            />
           </View>
         </View>
         <View style={styles.transactions}>
@@ -88,6 +95,22 @@ const AllTransactions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  input: {
+    fontFamily: "DMSansRegular",
+    flex: 1,
+    letterSpacing: -0.500001,
+    padding: 4,
+    marginLeft: 4,
+    fontSize: RFValue(15),
+  },
+  inputSearchHolder: {
+    flexDirection: "row",
+    padding: 6,
+    paddingLeft: 8,
+    paddingRight: 8,
+    alignItems: "center",
+    width: "100%",
+  },
   home: {
     padding: 22,
 
@@ -140,6 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "100%",
     flex: 1,
+    marginTop: 4,
   },
 });
 export default AllTransactions;

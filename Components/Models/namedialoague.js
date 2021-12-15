@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 6,
     width: "85%",
-    height: Dimensions.get("window").height / 2.65,
+    //height: Dimensions.get("window").height / 2.65,
     alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "column",
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   inputHolder: {
     position: "relative",
-    height: "25%",
+
     padding: 5,
     width: "100%",
     marginTop: 8,

@@ -14,11 +14,33 @@ import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
 import FAB from "../Components/fab";
 import NameDialogue from "../Components/Models/namedialoague";
+import AddTransactionDialogue from "../Components/Models/AddTransaction";
+import ViewTransaction from "../Components/Models/ViewTransaction";
 
 const Home = ({ navigation }) => {
+  ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(false);
   const closeAddNameDialogue = () => {
     setNameDialogue(false);
+  };
+  const ShowAddNameDialogue = () => {
+    setNameDialogue(true);
+  };
+  /////////////Add Transaction Dialogue
+  const [transactionDialogue, setTransactionDialogue] = useState(false);
+  const closeTransactionDialogue = () => {
+    setTransactionDialogue(false);
+  };
+  const ShowTransactionDialogue = () => {
+    setTransactionDialogue(true);
+  };
+  /////////////View Transaction Dialogue
+  const [viewtransactionDialogue, setViewTransactionDialogue] = useState(false);
+  const closeViewTransactionDialogue = () => {
+    setViewTransactionDialogue(false);
+  };
+  const ShowViewTransactionDialogue = () => {
+    setViewTransactionDialogue(true);
   };
   return (
     <>
@@ -36,6 +58,18 @@ const Home = ({ navigation }) => {
           <NameDialogue
             closeAddNameDialogue={closeAddNameDialogue}
             nameDialogue={nameDialogue}
+          />
+        ) : null}
+        {transactionDialogue ? (
+          <AddTransactionDialogue
+            closeTransactionDialogue={closeTransactionDialogue}
+            transactionDialogue={transactionDialogue}
+          />
+        ) : null}
+        {viewtransactionDialogue ? (
+          <ViewTransaction
+            closeViewTransactionDialogue={closeViewTransactionDialogue}
+            viewtransactionDialogue={viewtransactionDialogue}
           />
         ) : null}
         <View style={styles.home}>
@@ -94,25 +128,26 @@ const Home = ({ navigation }) => {
             <TouchableOpacity>
               <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={ShowTransactionDialogue}>
               <Text style={styles.HomeSectionSubTxt}>Search </Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.transactions}>
-          <TransactionCard />
+          <TransactionCard
+            ShowViewTransactionDialogue={ShowViewTransactionDialogue}
+          />
           <TransactionCard />
           <TransactionCard />
         </View>
         <TouchableOpacity
           onPress={() => {
-            //navigation.navigate("AllTransactions");
-            setNameDialogue(true);
+            navigation.navigate("AllTransactions");
           }}
         >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
-        <FAB />
+        <FAB ShowAddNameDialogue={ShowAddNameDialogue} />
       </View>
     </>
   );
