@@ -120,17 +120,14 @@ const ViewTransaction = ({
             </TouchableOpacity>
           </View>
           <View style={styles.dialogueBtm}>
+            <TouchableOpacity style={styles.deletebtn}>
+              <Icon size={22} name="trash" type="ionicon" color="#FC5664" />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={closeViewTransactionDialogue}
               style={styles.btn}
             >
-              <Text style={styles.btnTxt}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeViewTransactionDialogue}
-              style={styles.btnImpo}
-            >
-              <Text style={styles.btnTxtImpo}>Save</Text>
+              <Text style={styles.btnTxt}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -142,6 +139,14 @@ const ViewTransaction = ({
 export default ViewTransaction;
 
 const styles = StyleSheet.create({
+  deletebtn: {
+    width: 35,
+    height: 35,
+    backgroundColor: "#ECEFF1",
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   viewTransactionCardLabel: {
     backgroundColor: "#fff",
     padding: 4,
@@ -157,6 +162,7 @@ const styles = StyleSheet.create({
     fontFamily: "DMSansRegular",
     letterSpacing: -0.500001,
     color: "#ffffff",
+    textAlignVertical: "center",
     lineHeight: 42,
   },
   cardTotalTransactionsValueBold: {
@@ -172,6 +178,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingTop: 28,
     paddingBottom: 28,
+    borderRadius: 4,
   },
   viewTransactionDate: {
     fontFamily: "DMSansMedium",
@@ -179,7 +186,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.300001,
     color: "#90A4AE",
     textAlign: "center",
-
+    marginTop: 3,
     marginBottom: 6,
   },
   chipsHolder: {
@@ -206,7 +213,9 @@ const styles = StyleSheet.create({
   },
   dialogueBtm: {
     marginTop: 8,
-    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
     flexDirection: "row",
     marginBottom: 14,
   },
