@@ -3,17 +3,41 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Icon } from "react-native-elements";
 
-const TransactionCard = ({ ShowViewTransactionDialogue }) => {
+const TransactionCard = ({ ShowViewTransactionDialogue, data }) => {
+  console.log(data.item, "ad");
   return (
-    <TouchableOpacity onPress={ShowViewTransactionDialogue} style={styles.card}>
+    <TouchableOpacity
+      onPress={() => ShowViewTransactionDialogue(data)}
+      style={styles.card}
+    >
       <View style={styles.cardRow1}>
-        <Text style={styles.cardHead}>Hostel Fees</Text>
-        <Icon size={30} name="arrow-up-circle" type="ionicon" color="#3FE0AE" />
+        <Text style={styles.cardHead}>{data.label}</Text>
+
+        {data.type == "income" ? (
+          <Icon
+            size={30}
+            name="arrow-up-circle"
+            type="ionicon"
+            color="#3FE0AE"
+          />
+        ) : (
+          <Icon
+            size={30}
+            name="arrow-down-circle"
+            type="ionicon"
+            color="#FC5664"
+          />
+        )}
       </View>
       <View style={styles.cardRow1}>
         <Text style={styles.cardText}>12 Januvary 2021</Text>
         <Text style={styles.cardValue}>
-          <Text style={styles.cardValuePositive}>+</Text> ₹1200
+          {data.type == "income" ? (
+            <Text style={styles.cardValuePositive}>+</Text>
+          ) : (
+            <Text style={styles.cardValuenegative}>-</Text>
+          )}{" "}
+          ₹{data.amount < 0 ? data.amount * -1 : data.amount}
         </Text>
       </View>
     </TouchableOpacity>
@@ -58,6 +82,9 @@ const styles = StyleSheet.create({
   },
   cardValuePositive: {
     color: "#3FE0AE",
+  },
+  cardValuenegative: {
+    color: "#FC5664",
   },
   cardRow1: {
     flexDirection: "row",

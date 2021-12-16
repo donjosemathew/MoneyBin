@@ -1,4 +1,3 @@
-import { useFonts } from "expo-font";
 import {
   Text,
   TouchableOpacity,
@@ -7,8 +6,9 @@ import {
   StatusBar,
   StyleSheet,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Icon } from "react-native-elements";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
@@ -16,10 +16,11 @@ import FAB from "../Components/fab";
 import NameDialogue from "../Components/Models/namedialoague";
 import AddTransactionDialogue from "../Components/Models/AddTransaction";
 import ViewTransaction from "../Components/Models/ViewTransaction";
-
+import { storeTransactionData, getTransactionData } from "../DB/database";
+import LottieView from "lottie-react-native";
 const Home = ({ navigation }) => {
   ///////////Add Name Dialogue
-  const [nameDialogue, setNameDialogue] = useState(false);
+  const [nameDialogue, setNameDialogue] = useState(true);
   const closeAddNameDialogue = () => {
     setNameDialogue(false);
   };
@@ -36,12 +37,77 @@ const Home = ({ navigation }) => {
   };
   /////////////View Transaction Dialogue
   const [viewtransactionDialogue, setViewTransactionDialogue] = useState(false);
+  const [selected, setSelected] = useState("");
   const closeViewTransactionDialogue = () => {
     setViewTransactionDialogue(false);
   };
-  const ShowViewTransactionDialogue = () => {
+  const ShowViewTransactionDialogue = (data) => {
+    setSelected(data);
     setViewTransactionDialogue(true);
   };
+  //////////////////Database Part
+  /////UserName
+  const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState("");
+  /////////Function to get data Name//////////////
+  const getNameData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("name");
+      setIsLoading(false);
+      if (value !== null) {
+        // value previously stored
+        setUsername(value);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+  /*if name is not available it will show dialogue and add data */
+  const storeNameData = async (value) => {
+    try {
+      await AsyncStorage.setItem("name", value);
+    } catch (e) {
+      // saving error
+    }
+  };
+  /*
+  
+*/
+  /////transaction Data
+  const [data, setData] = useState("");
+  const [totalTransactionincome, setTotalTransactionincome] = useState(0);
+  const [totalTransactionExpense, setTotalTransactionExpense] = useState(0);
+  const gettransactionDataFromDB = async () => {
+    const data = await getTransactionData();
+    setData(data);
+    //console.log(data.data, "d");
+    let income = 0;
+    data.forEach((item) => {
+      if (item.type == "income") {
+        income = income + parseInt(item.amount);
+      }
+    });
+    setTotalTransactionincome(income);
+    let expense = 0;
+    data.forEach((item) => {
+      if (item.type == "expense") {
+        expense = expense + parseInt(item.amount);
+      }
+    });
+    setTotalTransactionExpense(expense);
+  };
+  useEffect(() => {}, [data]);
+  useEffect(() => {
+    getNameData();
+    //storeTransactionData();
+    gettransactionDataFromDB();
+  }, []);
+  //////////////////Animation
+  const [timer, setTimer] = useState(false);
+  setTimeout(() => {
+    setTimer(true);
+  }, 3000);
+
   return (
     <>
       <View
@@ -49,17 +115,21 @@ const Home = ({ navigation }) => {
           //paddingTop: StatusBar.currentHeight,
           backgroundColor: "#FFFFFF",
           flex: 1,
-          justifyContent: "center",
+          justifyContent: "flex-start",
           alignItems: "center",
         }}
       >
         <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-        {nameDialogue ? (
-          <NameDialogue
-            closeAddNameDialogue={closeAddNameDialogue}
-            nameDialogue={nameDialogue}
-          />
+
+        {!isLoading ? (
+          !username && nameDialogue ? (
+            <NameDialogue
+              closeAddNameDialogue={closeAddNameDialogue}
+              storeNameData={storeNameData}
+            />
+          ) : null
         ) : null}
+
         {transactionDialogue ? (
           <AddTransactionDialogue
             closeTransactionDialogue={closeTransactionDialogue}
@@ -68,10 +138,12 @@ const Home = ({ navigation }) => {
         ) : null}
         {viewtransactionDialogue ? (
           <ViewTransaction
+            dataSelected={selected}
             closeViewTransactionDialogue={closeViewTransactionDialogue}
             viewtransactionDialogue={viewtransactionDialogue}
           />
         ) : null}
+
         <View style={styles.home}>
           <Text style={styles.name}>MoneyBin</Text>
         </View>
@@ -80,7 +152,10 @@ const Home = ({ navigation }) => {
           <View style={styles.circle2} />
           <View style={styles.homeCardContentHolder}>
             <Text style={styles.userName}>
-              Hi <Text style={styles.userNameBold}>Sam</Text>
+              Hi{" "}
+              <Text style={styles.userNameBold}>
+                {username ? username : ""}
+              </Text>
             </Text>
 
             <View style={styles.cardTotalTransactions}>
@@ -98,7 +173,7 @@ const Home = ({ navigation }) => {
                 <Text style={styles.cardTotalTransactionsValue}>
                   ₹{" "}
                   <Text style={styles.cardTotalTransactionsValueBold}>
-                    15510
+                    {totalTransactionincome}
                   </Text>
                 </Text>
               </View>
@@ -115,7 +190,7 @@ const Home = ({ navigation }) => {
                 <Text style={styles.cardTotalTransactionsValue}>
                   ₹{" "}
                   <Text style={styles.cardTotalTransactionsValueBold}>
-                    14456
+                    {totalTransactionExpense * -1}
                   </Text>
                 </Text>
               </View>
@@ -128,26 +203,62 @@ const Home = ({ navigation }) => {
             <TouchableOpacity>
               <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={ShowTransactionDialogue}>
+            <TouchableOpacity>
               <Text style={styles.HomeSectionSubTxt}>Search </Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.transactions}>
-          <TransactionCard
-            ShowViewTransactionDialogue={ShowViewTransactionDialogue}
-          />
-          <TransactionCard />
-          <TransactionCard />
+        <View
+          style={
+            !timer
+              ? [
+                  styles.transactions,
+                  { alignItems: "center", justifyContent: "flex-start" },
+                ]
+              : styles.transactions
+          }
+        >
+          {!isLoading && timer ? (
+            <View>
+              {data.length >= 1 ? (
+                <TransactionCard
+                  data={data[0]}
+                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
+                />
+              ) : null}
+              {data.length >= 2 ? (
+                <TransactionCard
+                  data={data[1]}
+                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
+                />
+              ) : null}
+              {data.length >= 3 ? (
+                <TransactionCard
+                  data={data[2]}
+                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
+                />
+              ) : null}
+            </View>
+          ) : (
+            <LottieView
+              loop={true}
+              autoPlay
+              style={{
+                width: 150,
+                height: 200,
+              }}
+              source={require("../assets/animations/loading.json")}
+            />
+          )}
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("AllTransactions");
+            navigation.navigate("AllTransactions", { data: data });
           }}
         >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
-        <FAB ShowAddNameDialogue={ShowAddNameDialogue} />
+        <FAB ShowTransactionDialogue={ShowTransactionDialogue} />
       </View>
     </>
   );

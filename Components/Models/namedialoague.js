@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -11,13 +11,18 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { TextInput } from "react-native-paper";
-const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
+const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
+  const [name, setName] = useState("");
+  const passNameData = () => {
+    closeAddNameDialogue();
+    storeNameData(name);
+  };
   return (
     <View
       style={[
         styles.dialogueContainer,
         {
-          backgroundColor: !nameDialogue
+          backgroundColor: true
             ? "rgba(56, 56, 56, 0)"
             : "rgba(56, 56, 56, 0.37)",
         },
@@ -25,13 +30,13 @@ const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
     >
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={nameDialogue ? "rgba(56, 56, 56, 0.37)" : "#ffff"}
+        backgroundColor={true ? "rgba(56, 56, 56, 0.37)" : "#ffff"}
       />
       <Modal
         style={styles.container}
         transparent={true}
         animationType="fade"
-        visible={nameDialogue}
+        visible={true}
       >
         <View
           style={[
@@ -55,16 +60,14 @@ const NameDialogue = ({ nameDialogue, closeAddNameDialogue }) => {
               }}
               mode="outlined"
               label="Name"
+              onChangeText={(text) => setName(text)}
             />
           </View>
           <View style={styles.dialogueBtm}>
             <TouchableOpacity onPress={closeAddNameDialogue} style={styles.btn}>
               <Text style={styles.btnTxt}>Skip</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeAddNameDialogue}
-              style={styles.btnImpo}
-            >
+            <TouchableOpacity onPress={passNameData} style={styles.btnImpo}>
               <Text style={styles.btnTxtImpo}>Save</Text>
             </TouchableOpacity>
           </View>

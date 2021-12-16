@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import React from "react";
 
-const FAB = ({ ShowAddNameDialogue }) => {
+const FAB = ({ ShowTransactionDialogue }) => {
   return (
     <View style={styles.fab}>
-      <TouchableOpacity onPress={ShowAddNameDialogue}>
+      <TouchableOpacity onPress={ShowTransactionDialogue}>
         <Icon size={60} name="add-circle" type="ionicon" color="#263238" />
       </TouchableOpacity>
     </View>

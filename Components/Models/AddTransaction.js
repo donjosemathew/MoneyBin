@@ -13,11 +13,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { TextInput, RadioButton } from "react-native-paper";
 import { Icon } from "react-native-elements";
+import { storeTransactionData } from "../../DB/database";
 const AddTransactionDialogue = ({
   closeTransactionDialogue,
   transactionDialogue,
 }) => {
-  const [transactionMethod, SettransactionMethod] = useState("income");
   const monthNames = [
     "January",
     "February",
@@ -33,12 +33,30 @@ const AddTransactionDialogue = ({
     "December",
   ];
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
+
   const [showDatepicker, setShowDatepicker] = useState(false);
   const onDateChanged = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatepicker(false);
     setDate(currentDate);
+  };
+
+  ////////////
+  const [label, setLabel] = useState("");
+  const [amount, setAmount] = useState("");
+  const [transactionMethod, SettransactionMethod] = useState("income");
+
+  const AddDataToDB = () => {
+    if (label !== "" && amount !== "") {
+      closeTransactionDialogue();
+      const data = {
+        label: label,
+        amount: transactionMethod == "income" ? amount : amount * -1,
+        date: date,
+        type: transactionMethod,
+      };
+      storeTransactionData(data);
+    }
   };
   return (
     <View
@@ -82,9 +100,13 @@ const AddTransactionDialogue = ({
                   //backgroundColor: "#fffff",
                 }
               }
+              onChangeText={(text) => setLabel(text)}
               mode="outlined"
               label="Label"
             />
+            {label == "" ? (
+              <Text style={styles.errortext}>Label Field Cannot be empty!</Text>
+            ) : null}
           </View>
           {showDatepicker ? (
             <DateTimePicker
@@ -94,7 +116,7 @@ const AddTransactionDialogue = ({
               textColor="#FFFFFF"
               testID="dateTimePicker"
               value={date}
-              mode={mode}
+              mode={"date"}
               is24Hour={true}
               display="default"
               onChange={onDateChanged}
@@ -112,9 +134,15 @@ const AddTransactionDialogue = ({
                   //backgroundColor: "#fffff",
                 }
               }
+              onChangeText={(text) => setAmount(text)}
               mode="outlined"
               label="Amount"
             />
+            {amount == "" ? (
+              <Text style={styles.errortext}>
+                Amount Field Cannot be empty!
+              </Text>
+            ) : null}
           </View>
           <View style={styles.datePickerHolder}>
             <Text style={styles.chipsText}>
@@ -175,10 +203,7 @@ const AddTransactionDialogue = ({
             >
               <Text style={styles.btnTxt}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeTransactionDialogue}
-              style={styles.btnImpo}
-            >
+            <TouchableOpacity onPress={AddDataToDB} style={styles.btnImpo}>
               <Text style={styles.btnTxtImpo}>Save</Text>
             </TouchableOpacity>
           </View>
@@ -191,6 +216,14 @@ const AddTransactionDialogue = ({
 export default AddTransactionDialogue;
 
 const styles = StyleSheet.create({
+  errortext: {
+    fontFamily: "DMSansRegular",
+    marginTop: 3,
+    fontSize: RFValue(12),
+    letterSpacing: -0.9100001,
+    textAlign: "left",
+    color: "#FC5664",
+  },
   datePickerIcnHolder: {
     marginLeft: 6,
   },

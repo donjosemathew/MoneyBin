@@ -16,6 +16,7 @@ import { Icon } from "react-native-elements";
 const ViewTransaction = ({
   viewtransactionDialogue,
   closeViewTransactionDialogue,
+  dataSelected,
 }) => {
   const [transactionMethod, SettransactionMethod] = useState("income");
   const monthNames = [
@@ -32,8 +33,8 @@ const ViewTransaction = ({
     "November",
     "December",
   ];
+  console.log(dataSelected, "view");
 
-  const [showDatepicker, setShowDatepicker] = useState(false);
   const onDateChanged = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatepicker(false);
@@ -74,50 +75,57 @@ const ViewTransaction = ({
           <Text style={styles.viewTransactionDate}>12 Januvary 2021</Text>
           <View style={styles.viewTransactionCard}>
             <Text style={styles.cardTotalTransactionsValue}>
-              ₹ <Text style={styles.cardTotalTransactionsValueBold}>15510</Text>
+              ₹{" "}
+              <Text style={styles.cardTotalTransactionsValueBold}>
+                {dataSelected.amount < 0
+                  ? dataSelected.amount * -1
+                  : dataSelected.amount}
+              </Text>
             </Text>
             <View style={styles.viewTransactionCardLabel}>
-              <Text style={styles.viewTransactionDate}>Hostel Fees</Text>
+              <Text style={styles.viewTransactionDate}>
+                {dataSelected.label}
+              </Text>
             </View>
           </View>
           <View style={styles.chipsHolder}>
-            <TouchableOpacity
-              onPress={() => SettransactionMethod("income")}
-              style={[
-                styles.chips,
-                {
-                  backgroundColor:
-                    transactionMethod === "income" ? "#3FE0AE" : "white",
-                },
-              ]}
-            >
-              <Icon
-                size={22}
-                name="arrow-up-circle"
-                type="ionicon"
-                color="#263238"
-              />
-              <Text style={styles.chipsText}>Income</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => SettransactionMethod("expense")}
-              style={[
-                styles.chips,
-                {
-                  backgroundColor:
-                    transactionMethod === "expense" ? "#FC5664" : "white",
-                  marginLeft: 4,
-                },
-              ]}
-            >
-              <Icon
-                size={22}
-                name="arrow-down-circle"
-                type="ionicon"
-                color="#263238"
-              />
-              <Text style={styles.chipsText}>Expense</Text>
-            </TouchableOpacity>
+            {dataSelected.type == "income" ? (
+              <TouchableOpacity
+                style={[
+                  styles.chips,
+                  {
+                    backgroundColor: "#3FE0AE",
+                  },
+                ]}
+              >
+                <Icon
+                  size={22}
+                  name="arrow-up-circle"
+                  type="ionicon"
+                  color="#263238"
+                />
+                <Text style={styles.chipsText}>Income</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => SettransactionMethod("expense")}
+                style={[
+                  styles.chips,
+                  {
+                    backgroundColor: "#FC5664",
+                    marginLeft: 4,
+                  },
+                ]}
+              >
+                <Icon
+                  size={22}
+                  name="arrow-down-circle"
+                  type="ionicon"
+                  color="#263238"
+                />
+                <Text style={styles.chipsText}>Expense</Text>
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.dialogueBtm}>
             <TouchableOpacity style={styles.deletebtn}>
