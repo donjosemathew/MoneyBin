@@ -12,6 +12,7 @@
     "@react-native-community/datetimepicker": "^5.0.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.7.1",
     "expo": "~43.0.2",
     "expo-status-bar": "~1.1.0",
     "lottie-react-native": "4.0.3",
@@ -24,6 +25,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-web": "0.17.1",
+    "react-redux": "^7.2.6",
     "realm": "^10.10.1",
     "twrnc": "^2.2.0"
   },

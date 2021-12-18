@@ -13,6 +13,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
 import FAB from "../Components/fab";
+import ViewTransaction from "../Components/Models/ViewTransaction";
 
 const AllTransactions = ({ navigation, route }) => {
   const { data } = route.params;
@@ -62,11 +63,12 @@ const AllTransactions = ({ navigation, route }) => {
             }}
             data={data}
             renderItem={(item) => <TransactionCard data={item.item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => index}
           />
         </View>
         <FAB />
       </View>
+      <ViewTransaction />
     </>
   );
 };

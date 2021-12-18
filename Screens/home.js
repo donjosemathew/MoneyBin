@@ -136,13 +136,6 @@ const Home = ({ navigation }) => {
             transactionDialogue={transactionDialogue}
           />
         ) : null}
-        {viewtransactionDialogue ? (
-          <ViewTransaction
-            dataSelected={selected}
-            closeViewTransactionDialogue={closeViewTransactionDialogue}
-            viewtransactionDialogue={viewtransactionDialogue}
-          />
-        ) : null}
 
         <View style={styles.home}>
           <Text style={styles.name}>MoneyBin</Text>
@@ -220,24 +213,9 @@ const Home = ({ navigation }) => {
         >
           {!isLoading && timer ? (
             <View>
-              {data.length >= 1 ? (
-                <TransactionCard
-                  data={data[0]}
-                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
-                />
-              ) : null}
-              {data.length >= 2 ? (
-                <TransactionCard
-                  data={data[1]}
-                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
-                />
-              ) : null}
-              {data.length >= 3 ? (
-                <TransactionCard
-                  data={data[2]}
-                  ShowViewTransactionDialogue={ShowViewTransactionDialogue}
-                />
-              ) : null}
+              {data.length >= 1 ? <TransactionCard data={data[0]} /> : null}
+              {data.length >= 2 ? <TransactionCard data={data[1]} /> : null}
+              {data.length >= 3 ? <TransactionCard data={data[2]} /> : null}
             </View>
           ) : (
             <LottieView
@@ -253,13 +231,16 @@ const Home = ({ navigation }) => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("AllTransactions", { data: data });
+            navigation.navigate("AllTransactions", {
+              data: data,
+            });
           }}
         >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
         <FAB ShowTransactionDialogue={ShowTransactionDialogue} />
       </View>
+      <ViewTransaction />
     </>
   );
 };

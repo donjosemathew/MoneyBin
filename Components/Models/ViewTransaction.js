@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -13,12 +13,13 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { TextInput, RadioButton } from "react-native-paper";
 import { Icon } from "react-native-elements";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { hideDialogue } from "../../redux/viewTransactionDialogue";
 const ViewTransaction = ({
   viewtransactionDialogue,
   closeViewTransactionDialogue,
-  dataSelected,
 }) => {
-  const [transactionMethod, SettransactionMethod] = useState("income");
   const monthNames = [
     "January",
     "February",
@@ -33,35 +34,30 @@ const ViewTransaction = ({
     "November",
     "December",
   ];
-  console.log(dataSelected, "view");
 
-  const onDateChanged = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatepicker(false);
-    setDate(currentDate);
+  const visibleRedux = useSelector((state) => state.showDialogue.show);
+  const dataSelected = useSelector((state) => state.showDialogue.index);
+  const dispatch = useDispatch();
+
+  const closeDialogue = () => {
+    dispatch(hideDialogue());
   };
-  return (
+  return visibleRedux ? (
     <View
       style={[
         styles.dialogueContainer,
         {
-          backgroundColor: !viewtransactionDialogue
-            ? "rgba(56, 56, 56, 0)"
-            : "rgba(56, 56, 56, 0.37)",
+          backgroundColor: "rgba(56, 56, 56, 0.37)",
+          zIndex: 1000,
         },
       ]}
     >
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={
-          viewtransactionDialogue ? "rgba(56, 56, 56, 0.37)" : "#ffff"
-        }
-      />
+      <StatusBar backgroundColor={"rgba(56, 56, 56, 0.37)"} />
       <Modal
         style={styles.container}
         transparent={true}
         animationType="fade"
-        visible={viewtransactionDialogue}
+        visible={visibleRedux}
       >
         <View
           style={[
@@ -131,17 +127,14 @@ const ViewTransaction = ({
             <TouchableOpacity style={styles.deletebtn}>
               <Icon size={22} name="trash" type="ionicon" color="#FC5664" />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeViewTransactionDialogue}
-              style={styles.btn}
-            >
+            <TouchableOpacity onPress={closeDialogue} style={styles.btn}>
               <Text style={styles.btnTxt}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
     </View>
-  );
+  ) : null;
 };
 
 export default ViewTransaction;
