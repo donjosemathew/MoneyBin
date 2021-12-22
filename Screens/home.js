@@ -80,7 +80,7 @@ const Home = ({ navigation }) => {
   const gettransactionDataFromDB = async () => {
     const data = await getTransactionData();
     setData(data);
-    //console.log(data.data, "d");
+    console.log(data, "d");
     let income = 0;
     data.forEach((item) => {
       if (item.type == "income") {
@@ -128,13 +128,6 @@ const Home = ({ navigation }) => {
               storeNameData={storeNameData}
             />
           ) : null
-        ) : null}
-
-        {transactionDialogue ? (
-          <AddTransactionDialogue
-            closeTransactionDialogue={closeTransactionDialogue}
-            transactionDialogue={transactionDialogue}
-          />
         ) : null}
 
         <View style={styles.home}>
@@ -191,7 +184,7 @@ const Home = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.homeMiddle}>
-          <Text style={styles.HomeSectionHead}>Recent Transaction</Text>
+          <Text style={styles.HomeSectionHead}>Recent Transactions</Text>
           <View style={styles.HomeSectionHeadRow}>
             <TouchableOpacity>
               <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
@@ -216,6 +209,13 @@ const Home = ({ navigation }) => {
               {data.length >= 1 ? <TransactionCard data={data[0]} /> : null}
               {data.length >= 2 ? <TransactionCard data={data[1]} /> : null}
               {data.length >= 3 ? <TransactionCard data={data[2]} /> : null}
+              {data.length == 0 ? (
+                <View style={styles.emptyspace}>
+                  <Text style={styles.HomeSectionSubTxt}>
+                    No Recent Transactions 😴
+                  </Text>
+                </View>
+              ) : null}
             </View>
           ) : (
             <LottieView
@@ -238,7 +238,7 @@ const Home = ({ navigation }) => {
         >
           <Text style={styles.HomeBtmTxt}>More →</Text>
         </TouchableOpacity>
-        <FAB ShowTransactionDialogue={ShowTransactionDialogue} />
+        <FAB />
       </View>
       <ViewTransaction />
     </>
@@ -246,6 +246,13 @@ const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  emptyspace: {
+    width: "100%",
+    height: "90%",
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
   home: {
     padding: 22,
 

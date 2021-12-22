@@ -1,14 +1,23 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { AddTransactionShowDialogue } from "../redux/addTransactionDialogue";
+import AddTransactionDialogue from "./Models/AddTransaction";
 
-const FAB = ({ ShowTransactionDialogue }) => {
+const FAB = ({}) => {
+  const dispatch = useDispatch();
   return (
-    <View style={styles.fab}>
-      <TouchableOpacity onPress={ShowTransactionDialogue}>
-        <Icon size={60} name="add-circle" type="ionicon" color="#263238" />
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.fab}>
+        <TouchableOpacity
+          onPress={() => dispatch(AddTransactionShowDialogue())}
+        >
+          <Icon size={60} name="add-circle" type="ionicon" color="#263238" />
+        </TouchableOpacity>
+      </View>
+      <AddTransactionDialogue />
+    </>
   );
 };
 export default FAB;

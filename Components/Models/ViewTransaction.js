@@ -8,18 +8,15 @@ import {
   StatusBar,
   Button,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
-import { TextInput, RadioButton } from "react-native-paper";
+
 import { Icon } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { hideDialogue } from "../../redux/viewTransactionDialogue";
-const ViewTransaction = ({
-  viewtransactionDialogue,
-  closeViewTransactionDialogue,
-}) => {
+const ViewTransaction = ({}) => {
   const monthNames = [
     "January",
     "February",

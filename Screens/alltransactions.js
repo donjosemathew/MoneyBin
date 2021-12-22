@@ -14,6 +14,7 @@ import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
 import FAB from "../Components/fab";
 import ViewTransaction from "../Components/Models/ViewTransaction";
+import AddTransactionDialogue from "../Components/Models/AddTransaction";
 
 const AllTransactions = ({ navigation, route }) => {
   const { data } = route.params;
@@ -54,6 +55,13 @@ const AllTransactions = ({ navigation, route }) => {
           </View>
         </View>
         <View style={styles.transactions}>
+          {data.length == 0 ? (
+            <View style={styles.emptyspace}>
+              <Text style={styles.HomeSectionSubTxt}>
+                No Recent Transactions 😴
+              </Text>
+            </View>
+          ) : null}
           <FlatList
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
@@ -66,6 +74,7 @@ const AllTransactions = ({ navigation, route }) => {
             keyExtractor={(item, index) => index}
           />
         </View>
+
         <FAB />
       </View>
       <ViewTransaction />
@@ -74,6 +83,13 @@ const AllTransactions = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  emptyspace: {
+    width: "100%",
+
+    height: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   input: {
     fontFamily: "DMSansRegular",
     flex: 1,

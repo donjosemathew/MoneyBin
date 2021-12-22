@@ -3,12 +3,12 @@ let transactiondata;
 const storeTransactionData = async (value) => {
   console.log(value);
   try {
+    console.log("Sucess");
     const jsonValue = JSON.stringify({
       data: [...transactiondata, value],
     });
     await AsyncStorage.setItem("data", jsonValue);
     getTransactionData();
-    //console.log("Sucess");
   } catch (e) {
     // saving error
     //console.log("Error");
@@ -23,7 +23,7 @@ const getTransactionData = async () => {
     transactiondata = JSON.parse(jsonValue).data;
 
     transactiondata.sort((a, b) => b.date > a.date);
-    // console.log(transactiondata, "Sorted");
+    console.log(transactiondata, "Sorted");
     return transactiondata;
 
     //return jsonValue != null ? JSON.parse(jsonValue) : null;

@@ -8,8 +8,23 @@ import { showDialogue } from "../redux/viewTransactionDialogue";
 import { useSelector } from "react-redux";
 
 const TransactionCard = ({ data }) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const dispatch = useDispatch();
   const visible = useSelector((state) => state.showDialogue.show);
+  const date = new Date(data.date);
   return (
     <>
       <TouchableOpacity
@@ -36,7 +51,11 @@ const TransactionCard = ({ data }) => {
           )}
         </View>
         <View style={styles.cardRow1}>
-          <Text style={styles.cardText}>12 Januvary 2021</Text>
+          <Text style={styles.cardText}>
+            {`${date.getDate()} ${
+              monthNames[date.getMonth()]
+            } ${date.getFullYear()}`}
+          </Text>
           <Text style={styles.cardValue}>
             {data.type == "income" ? (
               <Text style={styles.cardValuePositive}>+</Text>

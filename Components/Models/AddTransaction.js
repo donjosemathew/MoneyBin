@@ -6,7 +6,7 @@ import {
   Modal,
   StyleSheet,
   StatusBar,
-  Button,
+  ImageBackground,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -14,10 +14,11 @@ import { Dimensions } from "react-native";
 import { TextInput, RadioButton } from "react-native-paper";
 import { Icon } from "react-native-elements";
 import { storeTransactionData } from "../../DB/database";
-const AddTransactionDialogue = ({
-  closeTransactionDialogue,
-  transactionDialogue,
-}) => {
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { HideTransactionHideDialogue } from "../../redux/addTransactionDialogue";
+
+const AddTransactionDialogue = ({}) => {
   const monthNames = [
     "January",
     "February",
@@ -48,7 +49,7 @@ const AddTransactionDialogue = ({
 
   const AddDataToDB = () => {
     if (label !== "" && amount !== "") {
-      closeTransactionDialogue();
+      closeDialogue();
       const data = {
         label: label,
         amount: transactionMethod == "income" ? amount : amount * -1,
@@ -58,159 +59,170 @@ const AddTransactionDialogue = ({
       storeTransactionData(data);
     }
   };
-  return (
-    <View
-      style={[
-        styles.dialogueContainer,
-        {
-          backgroundColor: !transactionDialogue
-            ? "rgba(56, 56, 56, 0)"
-            : "rgba(56, 56, 56, 0.37)",
-        },
-      ]}
-    >
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={
-          transactionDialogue ? "rgba(56, 56, 56, 0.37)" : "#ffff"
-        }
-      />
-      <Modal
-        style={styles.container}
-        transparent={true}
-        animationType="fade"
-        visible={transactionDialogue}
+  //////////////redux
+  const visible = useSelector((state) => state.AddDialogue.show);
+  const dispatch = useDispatch();
+  const closeDialogue = () => {
+    dispatch(HideTransactionHideDialogue());
+  };
+
+  return visible ? (
+    <>
+      <View
+        style={[
+          styles.dialogueContainer,
+          {
+            backgroundColor: "rgba(56, 56, 56, 0.37)",
+          },
+        ]}
       >
-        <View
-          style={[
-            styles.dialogue,
-            {
-              transform: [{ translateY: Dimensions.get("window").height / -5 }],
-            },
-          ]}
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={"rgba(56, 56, 56, 0.37)"}
+        />
+        <Modal
+          style={styles.container}
+          transparent={true}
+          animationType="fade"
+          visible={visible}
         >
-          <Text style={styles.HomeSectionHead}>Add new Transaction 💳</Text>
+          <View
+            style={[
+              styles.dialogue,
+              {
+                transform: [
+                  { translateY: Dimensions.get("window").height / -4 },
+                ],
+              },
+            ]}
+          >
+            <Text style={styles.HomeSectionHead}>Add new Transaction 💳</Text>
 
-          <View style={styles.inputHolder}>
-            <TextInput
-              outlineColor="#3FE0AE"
-              activeOutlineColor="#3FE0AE"
-              style={
-                {
-                  //backgroundColor: "#fffff",
+            <View style={styles.inputHolder}>
+              <TextInput
+                outlineColor="#3FE0AE"
+                activeOutlineColor="#3FE0AE"
+                style={
+                  {
+                    //backgroundColor: "#fffff",
+                  }
                 }
-              }
-              onChangeText={(text) => setLabel(text)}
-              mode="outlined"
-              label="Label"
-            />
-            {label == "" ? (
-              <Text style={styles.errortext}>Label Field Cannot be empty!</Text>
+                onChangeText={(text) => setLabel(text)}
+                mode="outlined"
+                label="Label"
+              />
+              {label == "" ? (
+                <Text style={styles.errortext}>
+                  Label Field Cannot be empty!
+                </Text>
+              ) : null}
+            </View>
+            {showDatepicker ? (
+              <DateTimePicker
+                style={{
+                  backgroundColor: "red",
+                }}
+                textColor="#FFFFFF"
+                testID="dateTimePicker"
+                value={date}
+                mode={"date"}
+                is24Hour={true}
+                display="default"
+                onChange={onDateChanged}
+              />
             ) : null}
-          </View>
-          {showDatepicker ? (
-            <DateTimePicker
-              style={{
-                backgroundColor: "red",
-              }}
-              textColor="#FFFFFF"
-              testID="dateTimePicker"
-              value={date}
-              mode={"date"}
-              is24Hour={true}
-              display="default"
-              onChange={onDateChanged}
-            />
-          ) : null}
 
-          <View style={styles.inputHolder}>
-            <TextInput
-              outlineColor="#3FE0AE"
-              activeOutlineColor="#3FE0AE"
-              type="number"
-              keyboardType="numeric"
-              style={
-                {
-                  //backgroundColor: "#fffff",
+            <View style={styles.inputHolder}>
+              <TextInput
+                outlineColor="#3FE0AE"
+                activeOutlineColor="#3FE0AE"
+                type="number"
+                keyboardType="numeric"
+                style={
+                  {
+                    //backgroundColor: "#fffff",
+                  }
                 }
-              }
-              onChangeText={(text) => setAmount(text)}
-              mode="outlined"
-              label="Amount"
-            />
-            {amount == "" ? (
-              <Text style={styles.errortext}>
-                Amount Field Cannot be empty!
+                onChangeText={(text) => setAmount(text)}
+                mode="outlined"
+                label="Amount"
+              />
+              {amount == "" ? (
+                <Text style={styles.errortext}>
+                  Amount Field Cannot be empty!
+                </Text>
+              ) : null}
+            </View>
+            <View style={styles.datePickerHolder}>
+              <Text style={styles.chipsText}>
+                {`${date.getDate()} ${
+                  monthNames[date.getMonth()]
+                } ${date.getFullYear()}`}
               </Text>
-            ) : null}
+              <TouchableOpacity
+                onPress={() => setShowDatepicker(true)}
+                style={styles.datePickerIcnHolder}
+              >
+                <Icon
+                  size={22}
+                  name="calendar"
+                  type="ionicon"
+                  color="#263238"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.chipsHolder}>
+              <TouchableOpacity
+                onPress={() => SettransactionMethod("income")}
+                style={[
+                  styles.chips,
+                  {
+                    backgroundColor:
+                      transactionMethod === "income" ? "#3FE0AE" : "white",
+                  },
+                ]}
+              >
+                <Icon
+                  size={22}
+                  name="arrow-up-circle"
+                  type="ionicon"
+                  color="#263238"
+                />
+                <Text style={styles.chipsText}>Income</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SettransactionMethod("expense")}
+                style={[
+                  styles.chips,
+                  {
+                    backgroundColor:
+                      transactionMethod === "expense" ? "#FC5664" : "white",
+                    marginLeft: 4,
+                  },
+                ]}
+              >
+                <Icon
+                  size={22}
+                  name="arrow-down-circle"
+                  type="ionicon"
+                  color="#263238"
+                />
+                <Text style={styles.chipsText}>Expense</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.dialogueBtm}>
+              <TouchableOpacity onPress={closeDialogue} style={styles.btn}>
+                <Text style={styles.btnTxt}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={AddDataToDB} style={styles.btnImpo}>
+                <Text style={styles.btnTxtImpo}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.datePickerHolder}>
-            <Text style={styles.chipsText}>
-              {`${date.getDate()} ${
-                monthNames[date.getMonth()]
-              } ${date.getFullYear()}`}
-            </Text>
-            <TouchableOpacity
-              onPress={() => setShowDatepicker(true)}
-              style={styles.datePickerIcnHolder}
-            >
-              <Icon size={22} name="calendar" type="ionicon" color="#263238" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.chipsHolder}>
-            <TouchableOpacity
-              onPress={() => SettransactionMethod("income")}
-              style={[
-                styles.chips,
-                {
-                  backgroundColor:
-                    transactionMethod === "income" ? "#3FE0AE" : "white",
-                },
-              ]}
-            >
-              <Icon
-                size={22}
-                name="arrow-up-circle"
-                type="ionicon"
-                color="#263238"
-              />
-              <Text style={styles.chipsText}>Income</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => SettransactionMethod("expense")}
-              style={[
-                styles.chips,
-                {
-                  backgroundColor:
-                    transactionMethod === "expense" ? "#FC5664" : "white",
-                  marginLeft: 4,
-                },
-              ]}
-            >
-              <Icon
-                size={22}
-                name="arrow-down-circle"
-                type="ionicon"
-                color="#263238"
-              />
-              <Text style={styles.chipsText}>Expense</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.dialogueBtm}>
-            <TouchableOpacity
-              onPress={closeTransactionDialogue}
-              style={styles.btn}
-            >
-              <Text style={styles.btnTxt}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={AddDataToDB} style={styles.btnImpo}>
-              <Text style={styles.btnTxtImpo}>Save</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
-  );
+        </Modal>
+      </View>
+    </>
+  ) : null;
 };
 
 export default AddTransactionDialogue;
