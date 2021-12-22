@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { HideTransactionHideDialogue } from "../../redux/addTransactionDialogue";
 
-const AddTransactionDialogue = ({}) => {
+const AddTransactionDialogue = ({ gettransactionDataFromDB }) => {
   const monthNames = [
     "January",
     "February",
@@ -57,6 +57,7 @@ const AddTransactionDialogue = ({}) => {
         type: transactionMethod,
       };
       storeTransactionData(data);
+      gettransactionDataFromDB();
     }
   };
   //////////////redux
@@ -65,7 +66,10 @@ const AddTransactionDialogue = ({}) => {
   const closeDialogue = () => {
     dispatch(HideTransactionHideDialogue());
   };
-
+  useEffect(() => {
+    setAmount("");
+    setLabel("");
+  }, [visible]);
   return visible ? (
     <>
       <View
@@ -80,12 +84,7 @@ const AddTransactionDialogue = ({}) => {
           barStyle="dark-content"
           backgroundColor={"rgba(56, 56, 56, 0.37)"}
         />
-        <Modal
-          style={styles.container}
-          transparent={true}
-          animationType="fade"
-          visible={visible}
-        >
+        <View style={styles.container}>
           <View
             style={[
               styles.dialogue,
@@ -111,7 +110,7 @@ const AddTransactionDialogue = ({}) => {
                 mode="outlined"
                 label="Label"
               />
-              {label == "" ? (
+              {label.length == 0 ? (
                 <Text style={styles.errortext}>
                   Label Field Cannot be empty!
                 </Text>
@@ -143,11 +142,14 @@ const AddTransactionDialogue = ({}) => {
                     //backgroundColor: "#fffff",
                   }
                 }
-                onChangeText={(text) => setAmount(text)}
+                onChangeText={(text) => {
+                  setAmount(text);
+                  console.log(text, "s");
+                }}
                 mode="outlined"
                 label="Amount"
               />
-              {amount == "" ? (
+              {amount.length == 0 ? (
                 <Text style={styles.errortext}>
                   Amount Field Cannot be empty!
                 </Text>
@@ -219,7 +221,7 @@ const AddTransactionDialogue = ({}) => {
               </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </View>
       </View>
     </>
   ) : null;

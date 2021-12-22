@@ -8,17 +8,24 @@ import {
   StyleSheet,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import TransactionCard from "../Components/transactionCard";
 import FAB from "../Components/fab";
 import ViewTransaction from "../Components/Models/ViewTransaction";
 import AddTransactionDialogue from "../Components/Models/AddTransaction";
+import { getTransactionData } from "../DB/database";
 
 const AllTransactions = ({ navigation, route }) => {
-  const { data } = route.params;
-
+  const [data, setData] = useState([]);
+  const gettransactionDataFromDB = async () => {
+    const data = await getTransactionData();
+    setData(data);
+  };
+  useEffect(() => {
+    gettransactionDataFromDB();
+  }, []);
   return (
     <>
       <View
@@ -78,6 +85,9 @@ const AllTransactions = ({ navigation, route }) => {
         <FAB />
       </View>
       <ViewTransaction />
+      <AddTransactionDialogue
+        gettransactionDataFromDB={gettransactionDataFromDB}
+      />
     </>
   );
 };

@@ -18,7 +18,12 @@ import AddTransactionDialogue from "../Components/Models/AddTransaction";
 import ViewTransaction from "../Components/Models/ViewTransaction";
 import { storeTransactionData, getTransactionData } from "../DB/database";
 import LottieView from "lottie-react-native";
+import { useRoute } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { getdata } from "../redux/dataRedux";
 const Home = ({ navigation }) => {
+  const route = useRoute();
+  console.log(route.name);
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);
   const closeAddNameDialogue = () => {
@@ -80,7 +85,7 @@ const Home = ({ navigation }) => {
   const gettransactionDataFromDB = async () => {
     const data = await getTransactionData();
     setData(data);
-    console.log(data, "d");
+
     let income = 0;
     data.forEach((item) => {
       if (item.type == "income") {
@@ -100,6 +105,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     getNameData();
     //storeTransactionData();
+
     gettransactionDataFromDB();
   }, []);
   //////////////////Animation
@@ -241,6 +247,11 @@ const Home = ({ navigation }) => {
         <FAB />
       </View>
       <ViewTransaction />
+      {route.name == "Home" ? (
+        <AddTransactionDialogue
+          gettransactionDataFromDB={gettransactionDataFromDB}
+        />
+      ) : null}
     </>
   );
 };

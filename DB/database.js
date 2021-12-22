@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 let transactiondata;
 const storeTransactionData = async (value) => {
-  console.log(value);
+  ///console.log(value);
   try {
-    console.log("Sucess");
+    // console.log("Sucess");
     const jsonValue = JSON.stringify({
       data: [...transactiondata, value],
     });
@@ -23,7 +23,7 @@ const getTransactionData = async () => {
     transactiondata = JSON.parse(jsonValue).data;
 
     transactiondata.sort((a, b) => b.date > a.date);
-    console.log(transactiondata, "Sorted");
+    //console.log(transactiondata, "Sorted");
     return transactiondata;
 
     //return jsonValue != null ? JSON.parse(jsonValue) : null;

@@ -16,7 +16,6 @@ const FAB = ({}) => {
           <Icon size={60} name="add-circle" type="ionicon" color="#263238" />
         </TouchableOpacity>
       </View>
-      <AddTransactionDialogue />
     </>
   );
 };
