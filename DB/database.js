@@ -5,7 +5,22 @@ const storeTransactionData = async (value) => {
   try {
     // console.log("Sucess");
     const jsonValue = JSON.stringify({
-      data: [...transactiondata, value],
+      data: [...transactiondata, { ...value, id: transactiondata.length + 1 }],
+    });
+    await AsyncStorage.setItem("data", jsonValue);
+    getTransactionData();
+  } catch (e) {
+    // saving error
+    //console.log("Error");
+  }
+};
+const DeleteTransactionData = async (value) => {
+  try {
+    console.log("Sucess");
+    const arr = value;
+
+    const jsonValue = JSON.stringify({
+      data: arr,
     });
     await AsyncStorage.setItem("data", jsonValue);
     getTransactionData();
@@ -32,4 +47,4 @@ const getTransactionData = async () => {
     console.log(e, "Error");
   }
 };
-export { getTransactionData, storeTransactionData };
+export { getTransactionData, storeTransactionData, DeleteTransactionData };

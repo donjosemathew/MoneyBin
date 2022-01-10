@@ -16,6 +16,8 @@ import { Icon } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { hideDialogue } from "../../redux/viewTransactionDialogue";
+import { DeleteTransactionData } from "../../DB/database";
+import { deleteData, getdata } from "../../redux/dataRedux";
 const ViewTransaction = ({}) => {
   const monthNames = [
     "January",
@@ -39,6 +41,10 @@ const ViewTransaction = ({}) => {
   const closeDialogue = () => {
     dispatch(hideDialogue());
   };
+  const refreshData = () => {
+    dispatch(deleteData(dataSelected.id));
+    console.log(dataSelected.id);
+  };
   return visibleRedux ? (
     <View
       style={[
@@ -50,7 +56,7 @@ const ViewTransaction = ({}) => {
       ]}
     >
       <StatusBar backgroundColor={"rgba(56, 56, 56, 0.37)"} />
-      <Modal
+      <View
         style={styles.container}
         transparent={true}
         animationType="fade"
@@ -121,7 +127,15 @@ const ViewTransaction = ({}) => {
             )}
           </View>
           <View style={styles.dialogueBtm}>
-            <TouchableOpacity style={styles.deletebtn}>
+            <TouchableOpacity
+              style={styles.deletebtn}
+              onPress={() => {
+                console.log(dataSelected.id);
+                // closeDialogue();
+                refreshData();
+                // DeleteTransactionData(dataSelected.id);
+              }}
+            >
               <Icon size={22} name="trash" type="ionicon" color="#FC5664" />
             </TouchableOpacity>
             <TouchableOpacity onPress={closeDialogue} style={styles.btn}>
@@ -129,7 +143,7 @@ const ViewTransaction = ({}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </View>
     </View>
   ) : null;
 };

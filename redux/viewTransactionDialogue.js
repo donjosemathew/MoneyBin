@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   show: false,
-  index: { label: "", amount: 0, date: "", type: "income" },
+  index: { label: "", amount: 0, date: "", type: "income", id: "" },
 };
 
 export const counterSlice = createSlice({
