@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 let transactiondata;
 const storeTransactionData = async (value) => {
   ///console.log(value);
   try {
     // console.log("Sucess");
     const jsonValue = JSON.stringify({
-      data: [...transactiondata, { ...value, id: transactiondata.length + 1 }],
+      data: [...transactiondata, { ...value, id: uuid.v4() }],
     });
     await AsyncStorage.setItem("data", jsonValue);
     getTransactionData();

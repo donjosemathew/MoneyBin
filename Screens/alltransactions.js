@@ -16,16 +16,23 @@ import FAB from "../Components/fab";
 import ViewTransaction from "../Components/Models/ViewTransaction";
 import AddTransactionDialogue from "../Components/Models/AddTransaction";
 import { getTransactionData } from "../DB/database";
+import { useDispatch, useSelector } from "react-redux";
+import { getdata } from "../redux/dataRedux";
 
 const AllTransactions = ({ navigation, route }) => {
   const [data, setData] = useState([]);
+  const alldata = useSelector((state) => state.dataOperations.data);
+  const dispatch = useDispatch();
   const gettransactionDataFromDB = async () => {
     const data = await getTransactionData();
-    setData(data);
+    dispatch(getdata(data));
   };
   useEffect(() => {
     gettransactionDataFromDB();
   }, []);
+  useEffect(() => {
+    setData(alldata);
+  }, [alldata]);
   return (
     <>
       <View

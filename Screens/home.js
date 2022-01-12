@@ -78,14 +78,14 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     setData(alldata);
     let income = 0;
-    data.forEach((item) => {
+    alldata.forEach((item) => {
       if (item.type == "income") {
         income = income + parseInt(item.amount);
       }
     });
     setTotalTransactionincome(income);
     let expense = 0;
-    data.forEach((item) => {
+    alldata.forEach((item) => {
       if (item.type == "expense") {
         expense = expense + parseInt(item.amount);
       }
