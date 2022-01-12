@@ -16,7 +16,6 @@ const storeTransactionData = async (value) => {
 };
 const DeleteTransactionData = async (value) => {
   try {
-    console.log("Sucess");
     const arr = value;
 
     const jsonValue = JSON.stringify({
@@ -39,6 +38,7 @@ const getTransactionData = async () => {
 
     transactiondata.sort((a, b) => b.date > a.date);
     //console.log(transactiondata, "Sorted");
+    //console.log(transactiondata, "data");
     return transactiondata;
 
     //return jsonValue != null ? JSON.parse(jsonValue) : null;

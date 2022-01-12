@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getdata } from "../redux/dataRedux";
 const Home = ({ navigation }) => {
   const route = useRoute();
-  console.log(route.name);
+
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);
   const closeAddNameDialogue = () => {
@@ -32,24 +32,7 @@ const Home = ({ navigation }) => {
   const ShowAddNameDialogue = () => {
     setNameDialogue(true);
   };
-  /////////////Add Transaction Dialogue
-  const [transactionDialogue, setTransactionDialogue] = useState(false);
-  const closeTransactionDialogue = () => {
-    setTransactionDialogue(false);
-  };
-  const ShowTransactionDialogue = () => {
-    setTransactionDialogue(true);
-  };
-  /////////////View Transaction Dialogue
-  const [viewtransactionDialogue, setViewTransactionDialogue] = useState(false);
-  const [selected, setSelected] = useState("");
-  const closeViewTransactionDialogue = () => {
-    setViewTransactionDialogue(false);
-  };
-  const ShowViewTransactionDialogue = (data) => {
-    setSelected(data);
-    setViewTransactionDialogue(true);
-  };
+
   //////////////////Database Part
   /////UserName
   const [isLoading, setIsLoading] = useState(true);
@@ -78,14 +61,22 @@ const Home = ({ navigation }) => {
   /*
   
 */
+  ////Data
+  const alldata = useSelector((state) => state.dataOperations.data);
+  const disatch = useDispatch();
+  console.log(alldata, "sd");
+
   /////transaction Data
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [totalTransactionincome, setTotalTransactionincome] = useState(0);
   const [totalTransactionExpense, setTotalTransactionExpense] = useState(0);
   const gettransactionDataFromDB = async () => {
     const data = await getTransactionData();
-    setData(data);
-
+    //setData(data);
+    disatch(getdata(data));
+  };
+  useEffect(() => {
+    setData(alldata);
     let income = 0;
     data.forEach((item) => {
       if (item.type == "income") {
@@ -100,8 +91,7 @@ const Home = ({ navigation }) => {
       }
     });
     setTotalTransactionExpense(expense);
-  };
-  useEffect(() => {}, [data]);
+  }, [alldata]);
   useEffect(() => {
     getNameData();
     //storeTransactionData();

@@ -10,7 +10,7 @@ export const counterSlice = createSlice({
   name: "dataOperations",
   initialState,
   reducers: {
-    getdata: (state) => {
+    getdata: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
@@ -18,13 +18,16 @@ export const counterSlice = createSlice({
 
       //gettransactionDataFromDB();
       let data;
+
       const gettransactionDataFromDB = async () => {
         data = await getTransactionData();
-        state.data = data;
-        console.log(data);
+
+        console.log(data, "d");
       };
-      gettransactionDataFromDB();
+      //gettransactionDataFromDB();
+      state.data = action.payload;
     },
+
     deleteData: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
@@ -32,18 +35,16 @@ export const counterSlice = createSlice({
       // immutable state based off those changes
 
       //gettransactionDataFromDB();
-      console.log(action.payload);
+
       const arr = [];
       state.data.forEach((element) => {
         if (element.id !== action.payload) {
           arr.push(element);
         }
       });
-      console.log(arr);
+
       DeleteTransactionData(arr);
       state.data = arr;
-
-      console.log(arr);
     },
   },
 });

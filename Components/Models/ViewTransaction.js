@@ -43,7 +43,8 @@ const ViewTransaction = ({}) => {
   };
   const refreshData = () => {
     dispatch(deleteData(dataSelected.id));
-    console.log(dataSelected.id);
+    closeDialogue();
+    //console.log(dataSelected.id);
   };
   return visibleRedux ? (
     <View

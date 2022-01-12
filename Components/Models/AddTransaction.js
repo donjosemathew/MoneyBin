@@ -144,7 +144,6 @@ const AddTransactionDialogue = ({ gettransactionDataFromDB }) => {
                 }
                 onChangeText={(text) => {
                   setAmount(text);
-                  console.log(text, "s");
                 }}
                 mode="outlined"
                 label="Amount"
