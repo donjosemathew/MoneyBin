@@ -22,7 +22,7 @@ export const counterSlice = createSlice({
       const gettransactionDataFromDB = async () => {
         data = await getTransactionData();
 
-        console.log(data, "d");
+        //console.log(data, "d");
       };
       //gettransactionDataFromDB();
       state.data = action.payload;

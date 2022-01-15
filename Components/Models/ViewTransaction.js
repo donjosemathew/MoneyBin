@@ -131,7 +131,7 @@ const ViewTransaction = ({}) => {
             <TouchableOpacity
               style={styles.deletebtn}
               onPress={() => {
-                console.log(dataSelected.id);
+                //console.log(dataSelected.id);
                 // closeDialogue();
                 refreshData();
                 // DeleteTransactionData(dataSelected.id);

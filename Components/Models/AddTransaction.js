@@ -17,7 +17,7 @@ import { storeTransactionData } from "../../DB/database";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { HideTransactionHideDialogue } from "../../redux/addTransactionDialogue";
-import { v4 as uuidv4 } from "uuid";
+
 const AddTransactionDialogue = ({ gettransactionDataFromDB }) => {
   const monthNames = [
     "January",

@@ -18,7 +18,8 @@ import AddTransactionDialogue from "../Components/Models/AddTransaction";
 import { getTransactionData } from "../DB/database";
 import { useDispatch, useSelector } from "react-redux";
 import { getdata } from "../redux/dataRedux";
-
+import { RadioButton } from "react-native-paper";
+import DateTimePicker from "@react-native-community/datetimepicker";
 const AllTransactions = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const alldata = useSelector((state) => state.dataOperations.data);
@@ -33,6 +34,88 @@ const AllTransactions = ({ navigation, route }) => {
   useEffect(() => {
     setData(alldata);
   }, [alldata]);
+  ////////////Search
+  const [search, setSearch] = useState(false);
+  let dataSearched;
+  const searchData = (value) => {
+    if (value) {
+      dataSearched = [];
+      data.map((item) => {
+        if (item.label.includes(value)) {
+          dataSearched.push(item);
+        }
+        setSearch(dataSearched);
+        setData(dataSearched);
+      });
+    } else {
+      setData(alldata);
+      setSearch(false);
+    }
+  };
+  //////////Monthly Data Filter
+  let dataSorted;
+
+  const [date, setDate] = useState(new Date());
+
+  const [showDatepicker, setShowDatepicker] = useState(false);
+  const onDateChanged = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatepicker(false);
+    setDate(currentDate);
+    setFilter(false);
+    monthlyData(currentDate.getMonth(), currentDate.getFullYear());
+  };
+  function monthlyData(m, y) {
+    console.log(m, y, "date");
+    // console.log(currentDate);
+
+    dataSorted = [];
+    let datee = new Date(date);
+    alldata.map((item) => {
+      let dateItem = new Date(item.date);
+      console.log(dateItem.getMonth(), m, "Date");
+      if (dateItem.getMonth() == m && dateItem.getFullYear() == y) {
+        dataSorted.push(item);
+      }
+    });
+    setData(dataSorted);
+    setDate(new Date());
+  }
+  useEffect(() => {
+    setData(dataSorted);
+  }, [dataSorted]);
+  ///////radio Btn Filter
+  const [filter, setFilter] = useState(false);
+  const [value, setValue] = React.useState("income");
+  const filterData = () => {
+    if (value == "income") {
+      dataSearched = [];
+      alldata.map((item) => {
+        if (item.type == "income") {
+          dataSearched.push(item);
+        }
+
+        setData(dataSearched);
+      });
+    } else if (value == "expense") {
+      dataSearched = [];
+      alldata.map((item) => {
+        if (item.type == "expense") {
+          dataSearched.push(item);
+        }
+
+        setData(dataSearched);
+      });
+    } else {
+      setFilter(false);
+    }
+    if (!filter) {
+      setData(alldata);
+    }
+  };
+  useEffect(() => {
+    filterData();
+  }, [value, filter]);
   return (
     <>
       <View
@@ -48,23 +131,94 @@ const AllTransactions = ({ navigation, route }) => {
         <View style={styles.home}>
           <Text style={styles.name}>MoneyBin</Text>
         </View>
-
+        {showDatepicker ? (
+          <DateTimePicker
+            textColor="#FFFFFF"
+            testID="dateTimePicker"
+            value={date}
+            mode={"date"}
+            is24Hour={true}
+            display="default"
+            onChange={onDateChanged}
+            style={{
+              backgroundColor: "red",
+            }}
+          />
+        ) : null}
         <View style={styles.homeMiddle}>
           <Text style={styles.HomeSectionHead}>All Transaction</Text>
           <View style={styles.HomeSectionHeadRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowDatepicker(true)}>
               <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.HomeSectionSubTxt}>Search </Text>
+            <TouchableOpacity onPress={() => setFilter(!filter)}>
+              <Text style={styles.HomeSectionSubTxt}>Filter </Text>
             </TouchableOpacity>
           </View>
+          {filter ? (
+            <View style={styles.HomeSectionFilterRow}>
+              <TouchableOpacity
+                onPress={() => setFilter(!filter)}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Icon
+                  name="close-circle"
+                  type="ionicon"
+                  color="#FC5664"
+                  size={20}
+                  style={{
+                    marginRight: 2,
+                  }}
+                />
+                <Text style={styles.HomeSectionSubTxt}>clear </Text>
+              </TouchableOpacity>
+              <RadioButton.Group
+                onValueChange={(newValue) => {
+                  setValue(newValue);
+                  console.log(newValue);
+                }}
+                value={value}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={styles.HomeSectionSubTxtDark}>Income</Text>
+                    <RadioButton value="income" />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginLeft: 6,
+                    }}
+                  >
+                    <Text style={styles.HomeSectionSubTxtDark}>Spendings</Text>
+                    <RadioButton value="expense" />
+                  </View>
+                </View>
+              </RadioButton.Group>
+            </View>
+          ) : null}
           <View style={styles.inputSearchHolder}>
             <Icon size={25} name="search" type="ionicon" color="#263238" />
             <TextInput
               style={styles.input}
               placeholder="Search Your Transcations"
-              keyboardType="numeric"
+              onChangeText={(text) => searchData(text)}
             />
           </View>
         </View>
@@ -157,11 +311,25 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 7,
   },
+  HomeSectionFilterRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 0,
+    marginBottom: 7,
+    alignItems: "center",
+  },
   HomeSectionSubTxt: {
     fontFamily: "DMSansMedium",
     fontSize: RFValue(15),
     letterSpacing: -0.700001,
     color: "#90A4AE",
+  },
+  HomeSectionSubTxtDark: {
+    fontFamily: "DMSansMedium",
+    fontSize: RFValue(15),
+    letterSpacing: -0.700001,
+    color: "#263238",
   },
   HomeBtmTxt: {
     fontFamily: "DMSansMedium",

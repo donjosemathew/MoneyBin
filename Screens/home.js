@@ -64,7 +64,7 @@ const Home = ({ navigation }) => {
   ////Data
   const alldata = useSelector((state) => state.dataOperations.data);
   const disatch = useDispatch();
-  console.log(alldata, "sd");
+  // console.log(alldata, "sd");
 
   /////transaction Data
   const [data, setData] = useState([]);
