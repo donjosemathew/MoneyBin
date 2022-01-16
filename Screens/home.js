@@ -21,6 +21,7 @@ import LottieView from "lottie-react-native";
 import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getdata } from "../redux/dataRedux";
+import CreditsDialogue from "../Components/Models/creditsDialogue";
 const Home = ({ navigation }) => {
   const route = useRoute();
 
@@ -103,7 +104,14 @@ const Home = ({ navigation }) => {
   setTimeout(() => {
     setTimer(true);
   }, 3000);
-
+  ////////////////Credis Dialogue
+  const [creditsDia, setCreditsDia] = useState(false);
+  const CloseCreditsDia = () => {
+    setCreditsDia(false);
+  };
+  const OpenCreditsDia = () => {
+    setCreditsDia(true);
+  };
   return (
     <>
       <View
@@ -127,7 +135,27 @@ const Home = ({ navigation }) => {
         ) : null}
 
         <View style={styles.home}>
+          <TouchableOpacity onPress={OpenCreditsDia}>
+            <Icon
+              name="reorder-two"
+              type="ionicon"
+              color="#263238"
+              size={45}
+              style={{
+                zIndex: 100,
+              }}
+            />
+          </TouchableOpacity>
           <Text style={styles.name}>MoneyBin</Text>
+          <Icon
+            name="reorder-two"
+            type="ionicon"
+            color="#fff"
+            size={45}
+            style={{
+              zIndex: 100,
+            }}
+          />
         </View>
         <View style={styles.homeCard}>
           <View style={styles.circle1} />
@@ -182,10 +210,15 @@ const Home = ({ navigation }) => {
         <View style={styles.homeMiddle}>
           <Text style={styles.HomeSectionHead}>Recent Transactions</Text>
           <View style={styles.HomeSectionHeadRow}>
-            <TouchableOpacity>
-              <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
+            <Text style={styles.HomeSectionSubTxt}>Recent 3 </Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("AllTransactions", {
+                  data: data,
+                });
+              }}
+            >
               <Text style={styles.HomeSectionSubTxt}>Search </Text>
             </TouchableOpacity>
           </View>
@@ -242,6 +275,9 @@ const Home = ({ navigation }) => {
           gettransactionDataFromDB={gettransactionDataFromDB}
         />
       ) : null}
+      {creditsDia ? (
+        <CreditsDialogue CloseCreditsDia={CloseCreditsDia} />
+      ) : null}
     </>
   );
 };
@@ -256,9 +292,11 @@ const styles = StyleSheet.create({
   },
   home: {
     padding: 22,
-
+    position: "relative",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
+
     width: "100%",
     flexDirection: "row",
   },
@@ -269,6 +307,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "DMSansRegular",
     letterSpacing: -1.100001,
+    zIndex: 2,
   },
   homeCard: {
     width: "90%",
