@@ -18,17 +18,12 @@ const Intro = ({ navigation }) => {
     DMSansBold: require("../assets/fonts/DMSans-Bold.ttf"),
   });
   if (!isLoaded) {
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
+    return <View></View>;
   } else {
     return (
       <>
         <View
           style={{
-            //paddingTop: StatusBar.currentHeight,
             backgroundColor: "#FFFFFF",
             flex: 1,
             justifyContent: "center",
@@ -43,7 +38,7 @@ const Intro = ({ navigation }) => {
               {"\n"}
               <Text>
                 <Text style={styles.fontHeadLight}>control your</Text> {"\n"}
-                <Text>savings</Text>
+                <Text>Transactions</Text>
               </Text>
             </Text>
           </View>

@@ -1,10 +1,11 @@
 import {
   Text,
   TouchableOpacity,
-  Image,
+  Alert,
   View,
   StatusBar,
   StyleSheet,
+  BackHandler,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Icon } from "react-native-elements";
@@ -24,6 +25,31 @@ import { getdata } from "../redux/dataRedux";
 import CreditsDialogue from "../Components/Models/creditsDialogue";
 const Home = ({ navigation }) => {
   const route = useRoute();
+  ////////////////////backhandler
+  let backHandlerCounter = 0;
+  useEffect(() => {
+    const backAction = () => {
+      //console.log(backHandlerCounter);
+      if (backHandlerCounter == 1) {
+        BackHandler.exitApp();
+      }
+      if (backHandlerCounter == 0) {
+        backHandlerCounter++;
+        setTimeout(() => {
+          backHandlerCounter = 0;
+        }, 1500);
+      }
+
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);

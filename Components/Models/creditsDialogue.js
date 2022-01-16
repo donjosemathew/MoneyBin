@@ -6,18 +6,12 @@ import {
   Modal,
   StyleSheet,
   StatusBar,
-  Button,
+  Image,
 } from "react-native";
 
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
-
-import { Icon } from "react-native-elements";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { hideDialogue } from "../../redux/viewTransactionDialogue";
-import { DeleteTransactionData } from "../../DB/database";
-import { deleteData, getdata } from "../../redux/dataRedux";
+import * as MailComposer from "expo-mail-composer";
 const CreditsDialogue = ({ CloseCreditsDia }) => {
   return (
     <View
@@ -44,16 +38,32 @@ const CreditsDialogue = ({ CloseCreditsDia }) => {
             },
           ]}
         >
-          <Text style={styles.HomeSectionHead}>Transaction </Text>
-          <Text style={styles.viewTransactionDate}>12 Januvary 2021</Text>
-          <View style={styles.viewTransactionCard}>
-            <Text style={styles.cardTotalTransactionsValue}>
-              ₹{" "}
-              <Text style={styles.cardTotalTransactionsValueBold}>sdsdds</Text>
+          <Text style={styles.name}>MoneyBin v1.0 Beta</Text>
+          <Text style={styles.HomeSectionSubTxt}>Coded with ❤️</Text>
+
+          <Text style={[styles.HomeSectionSubTxt, { marginTop: 25 }]}>
+            Coded by donjosemathew
+          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              MailComposer.composeAsync({
+                subject: "MoneyBin | Developer Contact",
+                recipients: ["donjosemathew.mail@gmail.com"],
+              })
+            }
+          >
+            <Text style={styles.HomeSectionSubTxt2}>Developer Contact 💌</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              marginTop: 20,
+              marginBottom: 10,
+            }}
+          >
+            <Text style={[styles.HomeSectionSubTxt2, { textAlign: "center" }]}>
+              Special Thanks {"\n"}🧑👦🧒🧑‍🦱{"\n"}Sam Jose | Ameg S | Abhiram
+              S | Pranv M
             </Text>
-            <View style={styles.viewTransactionCardLabel}>
-              <Text style={styles.viewTransactionDate}>sdsd</Text>
-            </View>
           </View>
 
           <View style={styles.dialogueBtm}>
@@ -70,77 +80,36 @@ const CreditsDialogue = ({ CloseCreditsDia }) => {
 export default CreditsDialogue;
 
 const styles = StyleSheet.create({
-  deletebtn: {
-    width: 35,
-    height: 35,
-    backgroundColor: "#ECEFF1",
-    borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  viewTransactionCardLabel: {
-    backgroundColor: "#fff",
-    padding: 4,
-    paddingLeft: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingRight: 20,
-    marginTop: 4,
-    borderRadius: 20,
-  },
-  cardTotalTransactionsValue: {
-    fontSize: RFValue(32),
-    fontFamily: "DMSansRegular",
-    letterSpacing: -0.500001,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    lineHeight: 42,
-  },
-  cardTotalTransactionsValueBold: {
-    fontFamily: "DMSansBold",
-  },
-  viewTransactionCard: {
-    backgroundColor: "#3FE0AE",
-    width: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 15,
-    padding: 15,
-    paddingTop: 28,
-    paddingBottom: 28,
-    borderRadius: 4,
-  },
-  viewTransactionDate: {
+  HomeSectionSubTxt2: {
     fontFamily: "DMSansMedium",
-    fontSize: RFValue(16),
-    letterSpacing: -0.300001,
+    fontSize: RFValue(14),
+    letterSpacing: -0.700001,
     color: "#90A4AE",
-    textAlign: "center",
     marginTop: 3,
-    marginBottom: 6,
   },
-  chipsHolder: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "100%",
-    marginTop: 10,
+  HomeSectionSubTxt: {
+    fontFamily: "DMSansMedium",
+    fontSize: RFValue(15),
+    letterSpacing: -0.700001,
+    color: "#90A4AE",
+    marginTop: 8,
+  },
+  name: {
+    //marginTop: Dimensions.get("window").height / 50,
+    color: "#263238",
+    fontSize: RFValue(24),
+    textAlign: "center",
+    fontFamily: "DMSansRegular",
+    letterSpacing: -1.100001,
+    zIndex: 2,
+    marginTop: 5,
     marginBottom: 5,
   },
-  chipsText: {
-    fontFamily: "DMSansRegular",
-    fontSize: RFValue(15),
-    letterSpacing: -0.9100001,
-    marginLeft: 3,
-    textAlign: "center",
-  },
-  chips: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 7,
-    paddingLeft: 14,
-    paddingRight: 14,
-    borderRadius: 25,
+  dialogueImg: {
+    padding: 5,
+    height: Dimensions.get("window").height / 2.8,
+    position: "relative",
+    resizeMode: "contain",
   },
   dialogueBtm: {
     marginTop: 8,
@@ -157,13 +126,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     borderRadius: 20,
   },
-  btnTxtImpo: {
-    fontFamily: "DMSansBold",
-    fontSize: RFValue(15),
-    letterSpacing: -0.300001,
-    color: "#ffff",
-    textAlign: "center",
-  },
+
   btn: {
     marginLeft: 6,
     padding: 7,

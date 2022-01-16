@@ -1,16 +1,12 @@
 {
   "expo": {
-    "name": "money-bin",
+    "name": "Money Bin",
     "slug": "money-bin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#3FE0AE",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+
     "androidNavigationBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#FFFFFF"

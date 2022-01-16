@@ -6,6 +6,7 @@ import {
   StatusBar,
   TextInput,
   StyleSheet,
+  BackHandler,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import React, { useState, useEffect } from "react";
@@ -21,6 +22,19 @@ import { getdata } from "../redux/dataRedux";
 import { RadioButton } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 const AllTransactions = ({ navigation, route }) => {
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate("Home");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   const [data, setData] = useState([]);
   const alldata = useSelector((state) => state.dataOperations.data);
   const dispatch = useDispatch();
