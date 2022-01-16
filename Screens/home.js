@@ -149,7 +149,7 @@ const Home = ({ navigation }) => {
                   color="#263238"
                 />
                 <Text style={styles.cardTotalTransactionsText}>
-                  Your Income
+                  Total Income
                 </Text>
 
                 <Text style={styles.cardTotalTransactionsValue}>
@@ -167,7 +167,7 @@ const Home = ({ navigation }) => {
                   color="#263238"
                 />
                 <Text style={styles.cardTotalTransactionsText}>
-                  Your Spending
+                  Total Spendings
                 </Text>
                 <Text style={styles.cardTotalTransactionsValue}>
                   ₹{" "}

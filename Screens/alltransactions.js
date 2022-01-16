@@ -53,20 +53,43 @@ const AllTransactions = ({ navigation, route }) => {
     }
   };
   //////////Monthly Data Filter
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   let dataSorted;
-
+  let monthlyIncome, monthlyExpense;
+  const [expenseIncome, setExpenseIncome] = useState([]); //Array holding index 0 -Total income index 1 -total expense
+  const [selectedMonthYear, setSelectedMonthYear] = useState([]); //Array holding index 0 -Selected month index 1 -selected year
   const [date, setDate] = useState(new Date());
-
+  const [sortByMonth, setSortByMonth] = useState(false);
   const [showDatepicker, setShowDatepicker] = useState(false);
   const onDateChanged = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatepicker(false);
     setDate(currentDate);
     setFilter(false);
+
+    setSelectedMonthYear([
+      monthNames[currentDate.getMonth()],
+      currentDate.getFullYear(),
+    ]);
     monthlyData(currentDate.getMonth(), currentDate.getFullYear());
   };
   function monthlyData(m, y) {
-    console.log(m, y, "date");
+    monthlyIncome = 0;
+    monthlyExpense = 0;
+    // console.log(m, y, "date");
     // console.log(currentDate);
 
     dataSorted = [];
@@ -74,20 +97,33 @@ const AllTransactions = ({ navigation, route }) => {
     alldata.map((item) => {
       let dateItem = new Date(item.date);
       console.log(dateItem.getMonth(), m, "Date");
+
       if (dateItem.getMonth() == m && dateItem.getFullYear() == y) {
         dataSorted.push(item);
+        if (item.type == "income") {
+          monthlyIncome = monthlyIncome + parseInt(item.amount);
+        }
+        if (item.type == "expense") {
+          monthlyExpense = monthlyExpense + parseInt(item.amount);
+        }
       }
     });
+    console.log(monthlyExpense, monthlyIncome);
     setData(dataSorted);
+    setSortByMonth(true);
     setDate(new Date());
+    setExpenseIncome([monthlyIncome, monthlyExpense]);
   }
   useEffect(() => {
-    setData(dataSorted);
-  }, [dataSorted]);
+    if (!sortByMonth) {
+      setData(alldata);
+    }
+  }, [sortByMonth]);
   ///////radio Btn Filter
   const [filter, setFilter] = useState(false);
   const [value, setValue] = React.useState("income");
   const filterData = () => {
+    setSortByMonth(false);
     if (value == "income") {
       dataSearched = [];
       alldata.map((item) => {
@@ -149,7 +185,7 @@ const AllTransactions = ({ navigation, route }) => {
           <Text style={styles.HomeSectionHead}>All Transaction</Text>
           <View style={styles.HomeSectionHeadRow}>
             <TouchableOpacity onPress={() => setShowDatepicker(true)}>
-              <Text style={styles.HomeSectionSubTxt}>Sort by</Text>
+              <Text style={styles.HomeSectionSubTxt}>Monthly Data</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setFilter(!filter)}>
               <Text style={styles.HomeSectionSubTxt}>Filter </Text>
@@ -222,12 +258,67 @@ const AllTransactions = ({ navigation, route }) => {
             />
           </View>
         </View>
+        {sortByMonth && data.length != 0 ? (
+          <View style={styles.homeCard}>
+            <View style={styles.circle1} />
+            <View style={styles.circle2} />
+            <TouchableOpacity
+              onPress={() => setSortByMonth(false)}
+              style={styles.homeCardIconClose}
+            >
+              <Icon name="close-circle" type="ionicon" color="#fff" />
+            </TouchableOpacity>
+
+            <View style={styles.homeCardContentHolder}>
+              <Text style={styles.userName}>
+                <Text style={styles.userNameBold}>
+                  {selectedMonthYear[0]} {selectedMonthYear[1]}
+                </Text>
+              </Text>
+              <View style={styles.cardTotalTransactions}>
+                <View style={styles.cardTotalTransactionsCols}>
+                  <Icon
+                    size={30}
+                    name="arrow-up-circle"
+                    type="ionicon"
+                    color="#263238"
+                  />
+                  <Text style={styles.cardTotalTransactionsText}>
+                    Your Income
+                  </Text>
+
+                  <Text style={styles.cardTotalTransactionsValue}>
+                    ₹{" "}
+                    <Text style={styles.cardTotalTransactionsValueBold}>
+                      {expenseIncome[0]}
+                    </Text>
+                  </Text>
+                </View>
+                <View style={styles.cardTotalTransactionsCols2}>
+                  <Icon
+                    size={30}
+                    name="arrow-down-circle"
+                    type="ionicon"
+                    color="#263238"
+                  />
+                  <Text style={styles.cardTotalTransactionsText}>
+                    Your Spendings
+                  </Text>
+                  <Text style={styles.cardTotalTransactionsValue}>
+                    ₹{" "}
+                    <Text style={styles.cardTotalTransactionsValueBold}>
+                      {expenseIncome[1] * -1}
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : null}
         <View style={styles.transactions}>
           {data.length == 0 ? (
             <View style={styles.emptyspace}>
-              <Text style={styles.HomeSectionSubTxt}>
-                No Recent Transactions 😴
-              </Text>
+              <Text style={styles.HomeSectionSubTxt}>No Transactions 😴</Text>
             </View>
           ) : null}
           <FlatList
@@ -238,7 +329,13 @@ const AllTransactions = ({ navigation, route }) => {
               paddingBottom: 15,
             }}
             data={data}
-            renderItem={(item) => <TransactionCard data={item.item} />}
+            renderItem={(item, index) =>
+              index == 0 ? (
+                <TransactionCard data={item.item} />
+              ) : (
+                <TransactionCard data={item.item} />
+              )
+            }
             keyExtractor={(item, index) => index}
           />
         </View>
@@ -344,6 +441,96 @@ const styles = StyleSheet.create({
     height: "100%",
     flex: 1,
     marginTop: 4,
+  },
+  //////////////////////////
+  homeCardIconClose: {
+    position: "absolute",
+    top: 6,
+    right: 6,
+  },
+  homeCard: {
+    width: "90%",
+
+    backgroundColor: "#3FE0AE",
+    overflow: "hidden",
+    borderRadius: 7,
+    marginTop: 3,
+    marginBottom: 4,
+    minHeight: Dimensions.get("window").height / 4.5,
+  },
+  circle1: {
+    width: Dimensions.get("window").width / 4.5,
+    height: Dimensions.get("window").width / 4.5,
+
+    position: "absolute",
+    top: -Dimensions.get("window").width / 16,
+    right: -Dimensions.get("window").width / 16,
+    borderRadius: Dimensions.get("window").width / 7,
+    backgroundColor: "rgba(255, 255, 255, 0.17)",
+  },
+  circle2: {
+    width: Dimensions.get("window").width / 6,
+    height: Dimensions.get("window").width / 6,
+
+    position: "absolute",
+    bottom: -Dimensions.get("window").width / 16,
+    left: -Dimensions.get("window").width / 16,
+    borderRadius: Dimensions.get("window").width / 7,
+    backgroundColor: "rgba(255, 255, 255, 0.17)",
+  },
+  homeCardContentHolder: {
+    padding: 20,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  userName: {
+    fontSize: RFValue(25),
+    fontFamily: "DMSansRegular",
+    letterSpacing: -1.000001,
+    color: "#ffffff",
+
+    textAlign: "center",
+  },
+  userNameBold: {
+    fontFamily: "DMSansMedium",
+  },
+  cardTotalTransactions: {
+    flex: 1,
+
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+
+  cardTotalTransactionsCols: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+    flex: 1,
+    paddingBottom: 9,
+  },
+  cardTotalTransactionsCols2: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    flex: 1,
+    paddingBottom: 9,
+  },
+  cardTotalTransactionsText: {
+    fontSize: RFValue(15),
+    fontFamily: "DMSansRegular",
+    letterSpacing: -0.800001,
+    color: "#ffffff",
+  },
+  cardTotalTransactionsValue: {
+    fontSize: RFValue(28),
+    fontFamily: "DMSansRegular",
+    letterSpacing: -0.500001,
+    color: "#ffffff",
+    lineHeight: 36,
+  },
+  cardTotalTransactionsValueBold: {
+    fontFamily: "DMSansBold",
   },
 });
 export default AllTransactions;
