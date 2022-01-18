@@ -110,7 +110,7 @@ const AllTransactions = ({ navigation, route }) => {
     let datee = new Date(date);
     alldata.map((item) => {
       let dateItem = new Date(item.date);
-      console.log(dateItem.getMonth(), m, "Date");
+      //console.log(dateItem.getMonth(), m, "Date");
 
       if (dateItem.getMonth() == m && dateItem.getFullYear() == y) {
         dataSorted.push(item);
@@ -122,7 +122,7 @@ const AllTransactions = ({ navigation, route }) => {
         }
       }
     });
-    console.log(monthlyExpense, monthlyIncome);
+    // console.log(monthlyExpense, monthlyIncome);
     setData(dataSorted);
     setSortByMonth(true);
     setDate(new Date());
@@ -229,7 +229,7 @@ const AllTransactions = ({ navigation, route }) => {
               <RadioButton.Group
                 onValueChange={(newValue) => {
                   setValue(newValue);
-                  console.log(newValue);
+                  // console.log(newValue);
                 }}
                 value={value}
               >
@@ -304,7 +304,9 @@ const AllTransactions = ({ navigation, route }) => {
                   <Text style={styles.cardTotalTransactionsValue}>
                     ₹{" "}
                     <Text style={styles.cardTotalTransactionsValueBold}>
-                      {expenseIncome[0]}
+                      {expenseIncome[0] > 1000
+                        ? (expenseIncome[0] / 1000).toFixed(2) + "k"
+                        : expenseIncome[0]}
                     </Text>
                   </Text>
                 </View>
@@ -321,7 +323,9 @@ const AllTransactions = ({ navigation, route }) => {
                   <Text style={styles.cardTotalTransactionsValue}>
                     ₹{" "}
                     <Text style={styles.cardTotalTransactionsValueBold}>
-                      {expenseIncome[1] * -1}
+                      {expenseIncome[1] * -1 > 1000
+                        ? ((expenseIncome[1] * -1) / 1000).toFixed(2) + "k"
+                        : expenseIncome[1] * -1}
                     </Text>
                   </Text>
                 </View>

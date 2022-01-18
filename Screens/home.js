@@ -53,7 +53,8 @@ const Home = ({ navigation }) => {
 
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);
-  const closeAddNameDialogue = () => {
+  const closeAddNameDialogue = (value) => {
+    setUsername(value);
     setNameDialogue(false);
   };
   const ShowAddNameDialogue = () => {
@@ -67,7 +68,8 @@ const Home = ({ navigation }) => {
   /////////Function to get data Name//////////////
   const getNameData = async () => {
     try {
-      const value = await AsyncStorage.getItem("name");
+      const value = await AsyncStorage.getItem("username");
+
       setIsLoading(false);
       if (value !== null) {
         // value previously stored
@@ -80,11 +82,13 @@ const Home = ({ navigation }) => {
   /*if name is not available it will show dialogue and add data */
   const storeNameData = async (value) => {
     try {
-      await AsyncStorage.setItem("name", value);
+      await AsyncStorage.setItem("username", value);
     } catch (e) {
       // saving error
+      console.log(e);
     }
   };
+
   /*
   
 */
@@ -209,7 +213,9 @@ const Home = ({ navigation }) => {
                 <Text style={styles.cardTotalTransactionsValue}>
                   ₹{" "}
                   <Text style={styles.cardTotalTransactionsValueBold}>
-                    {totalTransactionincome}
+                    {totalTransactionincome > 1000
+                      ? (totalTransactionincome / 1000).toFixed(2) + "k"
+                      : totalTransactionincome}
                   </Text>
                 </Text>
               </View>
@@ -226,7 +232,9 @@ const Home = ({ navigation }) => {
                 <Text style={styles.cardTotalTransactionsValue}>
                   ₹{" "}
                   <Text style={styles.cardTotalTransactionsValueBold}>
-                    {totalTransactionExpense * -1}
+                    {totalTransactionExpense * -1 > 1000
+                      ? ((totalTransactionExpense * -1) / 1000).toFixed(2) + "k"
+                      : totalTransactionExpense * -1}
                   </Text>
                 </Text>
               </View>

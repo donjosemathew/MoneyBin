@@ -14,7 +14,7 @@ import { TextInput } from "react-native-paper";
 const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
   const [name, setName] = useState("");
   const passNameData = () => {
-    closeAddNameDialogue();
+    closeAddNameDialogue(name);
     storeNameData(name);
   };
   return (
@@ -22,7 +22,7 @@ const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
       style={[
         styles.dialogueContainer,
         {
-          backgroundColor: true
+          backgroundColor: !true
             ? "rgba(56, 56, 56, 0)"
             : "rgba(56, 56, 56, 0.37)",
         },
@@ -32,7 +32,7 @@ const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
         barStyle="dark-content"
         backgroundColor={true ? "rgba(56, 56, 56, 0.37)" : "#ffff"}
       />
-      <Modal
+      <View
         style={styles.container}
         transparent={true}
         animationType="fade"
@@ -72,7 +72,7 @@ const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </View>
     </View>
   );
 };
