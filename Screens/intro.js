@@ -110,10 +110,10 @@ const styles = StyleSheet.create({
   },
   introImgSplash: {
     padding: 5,
-    height: Dimensions.get("window").height / 3,
+    height: Dimensions.get("window").height / 4,
     position: "relative",
     resizeMode: "contain",
-    marginRight: -Dimensions.get("window").width / 3,
+    marginRight: -Dimensions.get("window").width / 4,
     borderRadius: 7,
   },
   introBtnHolder: {

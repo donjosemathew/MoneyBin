@@ -290,8 +290,8 @@ const Home = ({ navigation }) => {
                 </View>
               ) : null}
             </View>
-          ) : (
-            <LottieView
+          ) : null}
+          {/*<LottieView
               loop={true}
               autoPlay
               style={{
@@ -299,8 +299,7 @@ const Home = ({ navigation }) => {
                 height: 200,
               }}
               source={require("../assets/animations/loading.json")}
-            />
-          )}
+            /> */}
         </View>
         <TouchableOpacity
           onPress={() => {

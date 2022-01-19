@@ -6,7 +6,7 @@ const storeTransactionData = async (value) => {
     const jsonValue = JSON.stringify({
       data: [...transactiondata, { ...value, id: uuid.v4() }],
     });
-    await AsyncStorage.setItem("data", jsonValue);
+    await AsyncStorage.setItem("transactiondata", jsonValue);
     getTransactionData();
   } catch (e) {
     // saving error
@@ -19,7 +19,7 @@ const DeleteTransactionData = async (value) => {
     const jsonValue = JSON.stringify({
       data: arr,
     });
-    await AsyncStorage.setItem("data", jsonValue);
+    await AsyncStorage.setItem("transactiondata", jsonValue);
     getTransactionData();
   } catch (e) {
     // saving error
@@ -27,7 +27,7 @@ const DeleteTransactionData = async (value) => {
 };
 const getTransactionData = async () => {
   try {
-    const jsonValue = await AsyncStorage.getItem("data");
+    const jsonValue = await AsyncStorage.getItem("transactiondata");
 
     if (jsonValue != null) {
       transactiondata = JSON.parse(jsonValue).data;
