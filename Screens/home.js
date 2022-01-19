@@ -288,7 +288,17 @@ const Home = ({ navigation }) => {
                     No Recent Transactions 😴
                   </Text>
                 </View>
-              ) : null}
+              ) : (
+                <LottieView
+                  loop={true}
+                  autoPlay
+                  style={{
+                    width: 150,
+                    height: 200,
+                  }}
+                  source={require("../assets/animations/loading.json")}
+                />
+              )}
             </View>
           ) : (
             <LottieView
