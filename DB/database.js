@@ -2,9 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 let transactiondata;
 const storeTransactionData = async (value) => {
-  ///console.log(value);
   try {
-    // console.log("Sucess");
     const jsonValue = JSON.stringify({
       data: [...transactiondata, { ...value, id: uuid.v4() }],
     });
@@ -12,7 +10,6 @@ const storeTransactionData = async (value) => {
     getTransactionData();
   } catch (e) {
     // saving error
-    //console.log("Error");
   }
 };
 const DeleteTransactionData = async (value) => {
@@ -26,26 +23,26 @@ const DeleteTransactionData = async (value) => {
     getTransactionData();
   } catch (e) {
     // saving error
-    //console.log("Error");
   }
 };
 const getTransactionData = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem("data");
 
-    //console.log(JSON.parse(jsonValue));
-    // console.log(JSON.parse(jsonValue));
-    transactiondata = JSON.parse(jsonValue).data;
+    if (jsonValue != null) {
+      transactiondata = JSON.parse(jsonValue).data;
 
-    transactiondata.sort((a, b) => b.date > a.date);
-    //console.log(transactiondata, "Sorted");
-    //console.log(transactiondata, "data");
-    return transactiondata;
+      transactiondata.sort((a, b) => b.date > a.date);
+
+      return transactiondata;
+    } else {
+      transactiondata = [];
+      return transactiondata;
+    }
 
     //return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
     // error reading value
-    //console.log(e, "Error");
   }
 };
 export { getTransactionData, storeTransactionData, DeleteTransactionData };

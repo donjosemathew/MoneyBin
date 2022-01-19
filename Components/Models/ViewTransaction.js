@@ -5,7 +5,7 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
-
+import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 
@@ -41,7 +41,6 @@ const ViewTransaction = ({}) => {
   const refreshData = () => {
     dispatch(deleteData(dataSelected.id));
     closeDialogue();
-    //console.log(dataSelected.id);
   };
   return visibleRedux ? (
     <View
@@ -128,8 +127,6 @@ const ViewTransaction = ({}) => {
             <TouchableOpacity
               style={styles.deletebtn}
               onPress={() => {
-                //console.log(dataSelected.id);
-                // closeDialogue();
                 refreshData();
                 // DeleteTransactionData(dataSelected.id);
               }}

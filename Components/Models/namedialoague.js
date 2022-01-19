@@ -14,8 +14,13 @@ import { TextInput } from "react-native-paper";
 const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
   const [name, setName] = useState("");
   const passNameData = () => {
-    closeAddNameDialogue(name);
-    storeNameData(name);
+    if (name.length >= 3) {
+      closeAddNameDialogue(name);
+      storeNameData(name);
+    }
+  };
+  const closeAddNameDialogueFn = () => {
+    closeAddNameDialogue(false);
   };
   return (
     <View
@@ -62,9 +67,15 @@ const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
               label="Name"
               onChangeText={(text) => setName(text)}
             />
+            {name.length < 3 ? (
+              <Text style={styles.errortext}>Enter Your Name!</Text>
+            ) : null}
           </View>
           <View style={styles.dialogueBtm}>
-            <TouchableOpacity onPress={closeAddNameDialogue} style={styles.btn}>
+            <TouchableOpacity
+              onPress={closeAddNameDialogueFn}
+              style={styles.btn}
+            >
               <Text style={styles.btnTxt}>Skip</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={passNameData} style={styles.btnImpo}>
@@ -80,6 +91,14 @@ const NameDialogue = ({ closeAddNameDialogue, storeNameData }) => {
 export default NameDialogue;
 
 const styles = StyleSheet.create({
+  errortext: {
+    fontFamily: "DMSansRegular",
+    marginTop: 3,
+    fontSize: RFValue(12),
+    letterSpacing: -0.9100001,
+    textAlign: "left",
+    color: "#FC5664",
+  },
   dialogueBtm: {
     marginTop: 8,
     alignSelf: "flex-end",

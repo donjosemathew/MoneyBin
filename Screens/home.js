@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import {
   Text,
   TouchableOpacity,
@@ -25,11 +26,10 @@ import { getdata } from "../redux/dataRedux";
 import CreditsDialogue from "../Components/Models/creditsDialogue";
 const Home = ({ navigation }) => {
   const route = useRoute();
-  ////////////////////backhandler
+  ////////////////////backhandlerjesusSaviour
   let backHandlerCounter = 0;
   useEffect(() => {
     const backAction = () => {
-      //console.log(backHandlerCounter);
       if (backHandlerCounter == 1) {
         BackHandler.exitApp();
       }
@@ -54,7 +54,9 @@ const Home = ({ navigation }) => {
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);
   const closeAddNameDialogue = (value) => {
-    setUsername(value);
+    if (!value) {
+      setUsername(value);
+    }
     setNameDialogue(false);
   };
   const ShowAddNameDialogue = () => {
@@ -85,7 +87,6 @@ const Home = ({ navigation }) => {
       await AsyncStorage.setItem("username", value);
     } catch (e) {
       // saving error
-      //console.log(e);
     }
   };
 
@@ -95,7 +96,6 @@ const Home = ({ navigation }) => {
   ////Data
   const alldata = useSelector((state) => state.dataOperations.data);
   const disatch = useDispatch();
-  // console.log(alldata, "sd");
 
   /////transaction Data
   const [data, setData] = useState([]);
@@ -103,37 +103,41 @@ const Home = ({ navigation }) => {
   const [totalTransactionExpense, setTotalTransactionExpense] = useState(0);
   const gettransactionDataFromDB = async () => {
     const data = await getTransactionData();
+
     //setData(data);
     disatch(getdata(data));
   };
   useEffect(() => {
     setData(alldata);
     let income = 0;
-    alldata.forEach((item) => {
-      if (item.type == "income") {
-        income = income + parseInt(item.amount);
-      }
-    });
-    setTotalTransactionincome(income);
-    let expense = 0;
-    alldata.forEach((item) => {
-      if (item.type == "expense") {
-        expense = expense + parseInt(item.amount);
-      }
-    });
-    setTotalTransactionExpense(expense);
+    if (alldata) {
+      alldata.forEach((item) => {
+        if (item.type == "income") {
+          income = income + parseInt(item.amount);
+        }
+      });
+      setTotalTransactionincome(income);
+      let expense = 0;
+      alldata.forEach((item) => {
+        if (item.type == "expense") {
+          expense = expense + parseInt(item.amount);
+        }
+      });
+      setTotalTransactionExpense(expense);
+    }
   }, [alldata]);
+
   useEffect(() => {
     getNameData();
-    //storeTransactionData();
 
     gettransactionDataFromDB();
+    setTimeout(() => {
+      setTimer(true);
+    }, 3000);
   }, []);
   //////////////////Animation
   const [timer, setTimer] = useState(false);
-  setTimeout(() => {
-    setTimer(true);
-  }, 3000);
+
   ////////////////Credis Dialogue
   const [creditsDia, setCreditsDia] = useState(false);
   const CloseCreditsDia = () => {
@@ -269,9 +273,15 @@ const Home = ({ navigation }) => {
         >
           {!isLoading && timer ? (
             <View>
-              {/**{data.length >= 1 ? <TransactionCard data={data[0]} /> : null}
-              {data.length >= 2 ? <TransactionCard data={data[1]} /> : null}
-              {data.length >= 3 ? <TransactionCard data={data[2]} /> : null} */}
+              {data && data.length >= 1 ? (
+                <TransactionCard data={data[0]} />
+              ) : null}
+              {data && data.length >= 2 ? (
+                <TransactionCard data={data[1]} />
+              ) : null}
+              {data && data.length >= 3 ? (
+                <TransactionCard data={data[2]} />
+              ) : null}
               {data.length == 0 ? (
                 <View style={styles.emptyspace}>
                   <Text style={styles.HomeSectionSubTxt}>

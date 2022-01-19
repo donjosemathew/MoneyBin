@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import {
   Text,
@@ -22,12 +21,17 @@ const Intro = ({ navigation }) => {
     return (
       <View
         style={{
-          backgroundColor: "#00FFFF",
+          backgroundColor: "#FFFFFF",
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}
-      ></View>
+      >
+        <Image
+          source={require("../assets/icon.png")}
+          style={styles.introImgSplash}
+        />
+      </View>
     );
   } else {
     return (
@@ -104,7 +108,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginRight: -Dimensions.get("window").width / 2.45,
   },
-
+  introImgSplash: {
+    padding: 5,
+    height: Dimensions.get("window").height / 3,
+    position: "relative",
+    resizeMode: "contain",
+    marginRight: -Dimensions.get("window").width / 3,
+    borderRadius: 7,
+  },
   introBtnHolder: {
     width: "100%",
     padding: 6,

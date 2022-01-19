@@ -8,6 +8,7 @@ import {
   StyleSheet,
   BackHandler,
 } from "react-native";
+
 import { Icon } from "react-native-elements";
 import React, { useState, useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
