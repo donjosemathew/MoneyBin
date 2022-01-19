@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
   ///////////Add Name Dialogue
   const [nameDialogue, setNameDialogue] = useState(true);
   const closeAddNameDialogue = (value) => {
-    if (!value) {
+    if (value != false) {
       setUsername(value);
     }
     setNameDialogue(false);
@@ -290,8 +290,8 @@ const Home = ({ navigation }) => {
                 </View>
               ) : null}
             </View>
-          ) : null}
-          {/*<LottieView
+          ) : (
+            <LottieView
               loop={true}
               autoPlay
               style={{
@@ -299,7 +299,8 @@ const Home = ({ navigation }) => {
                 height: 200,
               }}
               source={require("../assets/animations/loading.json")}
-            /> */}
+            />
+          )}
         </View>
         <TouchableOpacity
           onPress={() => {
