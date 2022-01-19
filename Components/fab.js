@@ -3,7 +3,6 @@ import { Icon } from "react-native-elements";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { AddTransactionShowDialogue } from "../redux/addTransactionDialogue";
-import AddTransactionDialogue from "./Models/AddTransaction";
 
 const FAB = ({}) => {
   const dispatch = useDispatch();

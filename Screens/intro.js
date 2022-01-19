@@ -18,7 +18,16 @@ const Intro = ({ navigation }) => {
     DMSansBold: require("../assets/fonts/DMSans-Bold.ttf"),
   });
   if (!isLoaded) {
-    return <View></View>;
+    return (
+      <View
+        style={{
+          backgroundColor: "#00FFFF",
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      ></View>
+    );
   } else {
     return (
       <>

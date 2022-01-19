@@ -17,7 +17,7 @@ import FAB from "../Components/fab";
 import NameDialogue from "../Components/Models/namedialoague";
 import AddTransactionDialogue from "../Components/Models/AddTransaction";
 import ViewTransaction from "../Components/Models/ViewTransaction";
-import { storeTransactionData, getTransactionData } from "../DB/database";
+import { getTransactionData } from "../DB/database";
 import LottieView from "lottie-react-native";
 import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,7 +85,7 @@ const Home = ({ navigation }) => {
       await AsyncStorage.setItem("username", value);
     } catch (e) {
       // saving error
-      console.log(e);
+      //console.log(e);
     }
   };
 
@@ -269,9 +269,9 @@ const Home = ({ navigation }) => {
         >
           {!isLoading && timer ? (
             <View>
-              {data.length >= 1 ? <TransactionCard data={data[0]} /> : null}
+              {/**{data.length >= 1 ? <TransactionCard data={data[0]} /> : null}
               {data.length >= 2 ? <TransactionCard data={data[1]} /> : null}
-              {data.length >= 3 ? <TransactionCard data={data[2]} /> : null}
+              {data.length >= 3 ? <TransactionCard data={data[2]} /> : null} */}
               {data.length == 0 ? (
                 <View style={styles.emptyspace}>
                   <Text style={styles.HomeSectionSubTxt}>

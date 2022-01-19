@@ -28,8 +28,6 @@
     "react-native-uuid": "^2.0.1",
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
-    "realm": "^10.10.1",
-    "twrnc": "^2.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -107,7 +107,7 @@ const AllTransactions = ({ navigation, route }) => {
     // console.log(currentDate);
 
     dataSorted = [];
-    let datee = new Date(date);
+
     alldata.map((item) => {
       let dateItem = new Date(item.date);
       //console.log(dateItem.getMonth(), m, "Date");

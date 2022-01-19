@@ -3,15 +3,13 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   StatusBar,
-  ImageBackground,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
-import { TextInput, RadioButton } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { Icon } from "react-native-elements";
 import { storeTransactionData } from "../../DB/database";
 import { useSelector } from "react-redux";

@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   StatusBar,
-  Button,
 } from "react-native";
 
 import { RFValue } from "react-native-responsive-fontsize";
@@ -16,8 +13,8 @@ import { Icon } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { hideDialogue } from "../../redux/viewTransactionDialogue";
-import { DeleteTransactionData } from "../../DB/database";
-import { deleteData, getdata } from "../../redux/dataRedux";
+
+import { deleteData } from "../../redux/dataRedux";
 const ViewTransaction = ({}) => {
   const monthNames = [
     "January",
