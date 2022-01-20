@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height / 5,
     position: "relative",
     resizeMode: "contain",
-    marginRight: -Dimensions.get("window").width / 5,
+
     borderRadius: 7,
   },
   introBtnHolder: {
