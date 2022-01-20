@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import {
   Text,
   TouchableOpacity,
@@ -288,17 +287,7 @@ const Home = ({ navigation }) => {
                     No Recent Transactions 😴
                   </Text>
                 </View>
-              ) : (
-                <LottieView
-                  loop={true}
-                  autoPlay
-                  style={{
-                    width: 150,
-                    height: 200,
-                  }}
-                  source={require("../assets/animations/loading.json")}
-                />
-              )}
+              ) : null}
             </View>
           ) : (
             <LottieView

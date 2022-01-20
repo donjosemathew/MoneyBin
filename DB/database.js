@@ -27,6 +27,7 @@ const DeleteTransactionData = async (value) => {
 };
 const getTransactionData = async () => {
   try {
+    await AsyncStorage.clear();
     const jsonValue = await AsyncStorage.getItem("transactiondata");
 
     if (jsonValue != null) {
