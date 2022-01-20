@@ -19,7 +19,7 @@
     },
     "android": {
       "versionCode": 12,
-      "enableDangerousExperimentalLeanBuilds": true,
+
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
