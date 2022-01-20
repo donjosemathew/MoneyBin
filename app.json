@@ -2,7 +2,7 @@
   "expo": {
     "name": "Money Bin",
     "slug": "money-bin",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#3FE0AE",
@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 12,
+      "versionCode": 14,
 
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
