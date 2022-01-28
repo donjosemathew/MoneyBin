@@ -42,6 +42,7 @@ const ViewTransaction = ({}) => {
     dispatch(deleteData(dataSelected.id));
     closeDialogue();
   };
+  const date = new Date(dataSelected.date);
   return visibleRedux ? (
     <View
       style={[
@@ -68,7 +69,11 @@ const ViewTransaction = ({}) => {
           ]}
         >
           <Text style={styles.HomeSectionHead}>Transaction </Text>
-          <Text style={styles.viewTransactionDate}>12 Januvary 2021</Text>
+          <Text style={styles.viewTransactionDate}>
+            {`${date.getDate()} ${
+              monthNames[date.getMonth()]
+            } ${date.getFullYear()}`}
+          </Text>
           <View style={styles.viewTransactionCard}>
             <Text style={styles.cardTotalTransactionsValue}>
               ₹{" "}
