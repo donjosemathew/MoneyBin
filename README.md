@@ -7,10 +7,16 @@
 </div>
 
 
-Money management comes with lots of intricate calculations and most of the time you get to wonder where did all your money go. Introducing Moneybin - a simple way to record and keep track of your transactions. With Moneybin you can be your own money manager. <br/>
-All you have to do is enter the amount and choose between income or expenditure. Type in your income(cash-in) and expenses(cash-out) as you earn and spend, and the app does the math for you. This app can help you easily manage your money and keep track of your income and expenses as well as keeps your transaction history. <br/>
-Stay in control of your finances with Moneybin. Record your transactions on the go with our app.<br/>
-Get it now. Now available in Google Play Store.
+Money management comes with lots of intricate calculations :dizzy_face: and most of the time you get to wonder where did all your money go 	:face_with_head_bandage: .<br/>
+## Introducing Moneybin   
+Moneybin is a simple way to record and keep track of your transactions enabling you to be your own money manager. <br/>
+All you have to do is:  
+- Enter the amount and choose between income or expenditure.  
+- Type in your income (cash-in) and expenses(cash-out) as you earn and spend.  
+All the remaining math is done by the app :wink:. Moneybin helps you easily manage your money and keep track of your income and expenses and even your transaction history. :star2::star2:<br/>
+Stay in control of your finances with Moneybin :star2:. Record your transactions on the go with our app.<br/>
+
+### Get it now. Now available in Google Play Store.
 
 [Download it here](https://play.google.com/store/apps/details?id=com.donjose.moneybin)
 
@@ -22,9 +28,9 @@ Get it now. Now available in Google Play Store.
 ▪️ Easily track your spending <br/>
 ▪️ Quick and manual expenditure and income entry <br/>
 ▪️ Edit and delete entry within record <br/>
-▪️ Simple and easy to use <br/>
 ▪️ Homepage with features showing recent transactions <br/>
 ▪️ Find out how much you spend and how you are saving month to month. Our app gives you an analysis of each month, so you always know where your money goes. <br/>
+▪️ Simple and easy to use <br/>
 ▪️ Simple and intuitive user interface <br/>
 ▪️ Download it for free, enter your expenses and income and have instant control over your spending <br/>
 
